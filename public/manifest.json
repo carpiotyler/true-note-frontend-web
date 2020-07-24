@@ -1,0 +1,8 @@
+{
+  "short_name": "True Note",
+  "name": "True Note - Productivity and Goals Tracking",
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
