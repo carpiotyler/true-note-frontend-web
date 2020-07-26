@@ -1,5 +1,6 @@
 import React from 'react';
 import NotesAppToolBar from './NotesAppToolbar';
+import NotesArea from './NotesArea';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 
 function NotesApp() {
@@ -11,7 +12,7 @@ function NotesApp() {
         <Router>
             <div>
                 <NotesAppToolBar />
-
+                <NotesArea id_token={id_token} access_token={access_token}/>
             </div>
         </Router>
     )

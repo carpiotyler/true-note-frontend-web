@@ -2,7 +2,7 @@ import React from 'react';
 
 function SearchBar(props) {
     const componentStyle = {
-        width: '60%',
+        width: '65%',
         height: '100%',
         display: 'flex',
         alignItems: 'center'

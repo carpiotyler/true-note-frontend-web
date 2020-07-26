@@ -4,7 +4,7 @@ import faStyles from 'font-awesome/css/font-awesome.css';
  
 function NotesSideNav() {
     const componentStyle = {
-        width: '20%',
+        width: '10%',
         paddingLeft: '5px'
     }
 
