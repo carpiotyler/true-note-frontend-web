@@ -10,7 +10,6 @@ function App() {
       <Switch>
         <Route path="/app" component={NotesApp}></Route>
         <Route path="/" exact component={Home}/>
-        <Route path="/about" component={About} />
       </Switch>
     </Router>
   );

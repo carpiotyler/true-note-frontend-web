@@ -6,13 +6,6 @@ const pageStyle = {
     display: 'grid',
     justifyContent: 'center'
 }
-const left = {
-    float: 'left'
-}
-
-const right = {
-    float: 'right'
-}
 
 const headingStyle = {
     marginBottom: '5px',
