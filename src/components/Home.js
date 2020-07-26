@@ -28,13 +28,6 @@ function Home() {
             <div style={pageStyle}>
                 <h2 style={headingStyle}>Modern Note-Taking, Checklists, and Goals Tracking.</h2>
                 <h3 style={headingStyle}>Track what matters most on all of your devices</h3>
-                <div>
-                    <div style={left}>
-                    </div>
-                    <div style={right}>
-
-                    </div>
-                </div>
             </div>
         </div>
     )

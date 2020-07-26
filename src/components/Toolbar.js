@@ -24,10 +24,7 @@ function Toolbar() {
     <div style={style}>
       <img src='Logo.png' height='100'></img>
       <div style={rightFloatStyle}>
-          <ul>
-            <li>About Us</li>
-            <li><Button text='Sign In' height='40px' onClick={signIn}/></li>
-          </ul>
+        <Button text='Sign In' height='40px' onClick={signIn}/>
       </div>
     </div>
   );
