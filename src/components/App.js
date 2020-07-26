@@ -1,5 +1,4 @@
 import React from 'react';
-import About from './About';
 import Home from './Home';
 import NotesApp from './NotesApp'
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
