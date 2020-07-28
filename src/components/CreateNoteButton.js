@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import NotesEditor from './NotesEditor'
 import Button from './Button';
+import Request from './Request';
+import Axios from "axios";
 
 
 class CreateNoteButton extends Component {
@@ -18,6 +20,7 @@ class CreateNoteButton extends Component {
         this.state = {
             isEditor: false
         }
+        this.request = props.Request
     }
 
     openEditor() {
@@ -26,7 +29,15 @@ class CreateNoteButton extends Component {
         });
     }
 
-    closeEditor() {
+    closeEditor(state) {
+        if(state) {
+            this.request.post('notes', {html: state.quillText}).then((res) => {
+                let note = res.data;
+                this.props.AddNote(note)
+            }).catch(err => {
+                console.error(err);
+            });
+        }
         this.setState({
             isEditor: false
         })
@@ -35,7 +46,7 @@ class CreateNoteButton extends Component {
     render() {
         if(this.state.isEditor ) {
             return (
-                <NotesEditor onDone={() => this.closeEditor()}/>
+                <NotesEditor onDone={(state) => this.closeEditor(state)}/>
             )
         } else {
             return (

@@ -1,6 +1,8 @@
-import React, {Component} from 'react';
-
+import  React, {Component} from 'react';
+import ReactQuill from 'react-quill';
 import Button from './Button';
+
+import 'react-quill/dist/quill.snow.css';
 
 class NotesEditor extends Component {
 
@@ -11,7 +13,7 @@ class NotesEditor extends Component {
         borderRadius: '20px',
         height: '80%',
         width: '80%',
-        backgroundColor: 'grey'
+        backgroundColor: '#fcfcfc'
     }
 
     saveButtonStyle = {
@@ -38,17 +40,26 @@ class NotesEditor extends Component {
 
     constructor(props) {
         super(props)
+        this.state = {
+            quillText: props.quillText
+        }
+    }
+
+    handleChange(value) {
+        this.setState({
+            quillText: value
+        })
     }
 
     render() {
         return (
             <div style={this.editorStyle}>
                 <div style={this.editorAreaStyle}>
-
+                    <ReactQuill onChange={(value) => this.handleChange(value)}/>
                 </div>
                 <div style={this.saveAreaStyle}>
-                    <Button style={this.cancelButtonStyle} text="Cancel" onClick={this.props.onDone}/>
-                    <Button style={this.saveButtonStyle} text="Save" onClick={this.props.onDone}/>
+                    <Button style={this.cancelButtonStyle} text="Cancel" onClick={() => this.props.onDone()}/>
+                    <Button style={this.saveButtonStyle} text="Save" onClick={() => this.props.onDone(this.state)}/>
                 </div>
             </div>
         )

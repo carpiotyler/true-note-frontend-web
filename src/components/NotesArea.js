@@ -1,6 +1,7 @@
 import React, {Component, useLayoutEffect, useState}from 'react';
 import {BrowserView, MobileView, isMobile} from 'react-device-detect';
 import Note from './Note';
+import Request from './Request';
 import CreateNoteButton from './CreateNoteButton';
 import axios from 'axios';
 
@@ -17,18 +18,33 @@ class NotesArea extends Component {
         this.state = {
             data: []
         }
-        this.id_token= props.id_token;
-        this.access_token= props.access_token;
+        this.request = new Request(props.id_token, props.access_token);
     }
 
     componentDidMount() {
-        axios.get(`https://am3jjrqi13.execute-api.us-east-2.amazonaws.com/prod/notes?id_token=${this.id_token}&access_token=${this.access_token}`, {headers: {"Access-Control-Allow-Origin": "*"}})
+        this.request.get('notes')
         .then(res => {
             console.log(res.data.Items)
             this.setState({
                 data: res.data.Items
             })
         });
+    }
+
+    addNote(note) {
+        let data = this.state.data;
+        data.unshift(note)
+        this.setState({
+          data: data
+        })
+    }
+
+    updateNote(note) {
+
+    }
+
+    deleteNote(note) {
+
     }
 
     render() {
@@ -39,7 +55,7 @@ class NotesArea extends Component {
                         <Note key={note.uuid} note={note}/>
                     )
                 })}
-                <CreateNoteButton />
+                <CreateNoteButton Request={this.request} AddNote={(note) => this.addNote(note)}/>
             </div>
         )
     }

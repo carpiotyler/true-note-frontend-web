@@ -1,9 +1,7 @@
 import React from 'react';
 import {isMobile} from 'react-device-detect';
-import MarkdownIt from 'markdown-it';
 
 function Note({note}) {
-    const md = new MarkdownIt();
 
     const style = {
         backgroundColor: '@fcfcfc',
@@ -17,7 +15,7 @@ function Note({note}) {
     }
 
     return (
-        <div style={style} dangerouslySetInnerHTML={{__html: md.render(note.markdown)}}>
+        <div style={style} dangerouslySetInnerHTML={{__html: note.html}}>
             
         </div>
     )
