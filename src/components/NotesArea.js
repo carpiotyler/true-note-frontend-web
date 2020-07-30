@@ -7,7 +7,7 @@ import axios from 'axios';
 
 class NotesArea extends Component {
 
-    style = {
+    notesRowStyle = {
         width: '100%',
         display: 'flex',
         justifyContent: isMobile ? 'center': 'end'
@@ -24,11 +24,34 @@ class NotesArea extends Component {
     componentDidMount() {
         this.request.get('notes')
         .then(res => {
-            console.log(res.data.Items)
             this.setState({
                 data: res.data.Items
             })
         });
+    }
+
+    getNoteRows(notes) {
+        if(isMobile) {
+            return (
+                notes.map((note, index) => {
+                    return (<div key={index} style={this.notesRowStyle}>
+                        <Note key={note.uuid} note={note}/>
+                    </div>)
+                })
+            )
+        } else {
+            let notesRowList = [];
+            for(let i = 0; i < notes.length; i+=4) {
+                let notesElemList = [];
+                for(let j = i; j < i + 4 && j < notes.length; j++) {
+                    notesElemList.push(<Note key={notes[j].uuid} note ={notes[j]} />);
+                }
+                notesRowList.push(<div key={i/4} style={this.notesRowStyle}>
+                    {notesElemList}
+                </div>)
+            }
+            return notesRowList
+        }
     }
 
     addNote(note) {
@@ -49,12 +72,8 @@ class NotesArea extends Component {
 
     render() {
         return (
-            <div style={this.style}>
-                {this.state.data.map(note => {
-                    return (
-                        <Note key={note.uuid} note={note}/>
-                    )
-                })}
+            <div>
+                {this.getNoteRows(this.state.data)}
                 <CreateNoteButton Request={this.request} AddNote={(note) => this.addNote(note)}/>
             </div>
         )

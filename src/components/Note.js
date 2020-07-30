@@ -4,14 +4,13 @@ import {isMobile} from 'react-device-detect';
 function Note({note}) {
 
     const style = {
-        backgroundColor: '@fcfcfc',
-        borderRadius: '20px',
+        backgroundColor: '#fcfcfc',
+        borderRadius: '5px',
         height: '400px',
-        width: isMobile? '90%': '15%',
-        margin: '2.5%',
-        minWidth: '',
-        backgroundColor: 'lightgrey',
-        padding: '2.5%'
+        width: '18%',
+        margin: '1%',
+        padding: '2.5%',
+        boxShadow: '0 1px 6px #888888'
     }
 
     return (
