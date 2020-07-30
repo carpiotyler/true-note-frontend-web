@@ -35,7 +35,7 @@ class NotesArea extends Component {
             return (
                 notes.map((note, index) => {
                     return (<div key={index} style={this.notesRowStyle}>
-                        <Note key={note.uuid} note={note}/>
+                        <Note key={note.uuid} note={note} updateNote={(note) => this.updateNote(note)} deleteNote={(note) => this.deleteNote(note)}/>
                     </div>)
                 })
             )
@@ -44,7 +44,7 @@ class NotesArea extends Component {
             for(let i = 0; i < notes.length; i+=4) {
                 let notesElemList = [];
                 for(let j = i; j < i + 4 && j < notes.length; j++) {
-                    notesElemList.push(<Note key={notes[j].uuid} note ={notes[j]} />);
+                    notesElemList.push(<Note key={notes[j].uuid} note ={notes[j]} updateNote={(note) => this.updateNote(note)} deleteNote={(note) => this.deleteNote(note)}/>);
                 }
                 notesRowList.push(<div key={i/4} style={this.notesRowStyle}>
                     {notesElemList}
@@ -63,11 +63,16 @@ class NotesArea extends Component {
     }
 
     updateNote(note) {
-
+        
     }
 
     deleteNote(note) {
-
+        this.request.del('notes', `uuid=${note.uuid}`)
+        .then(res => {
+            this.setState({
+                data: this.state.data.filter(x => x.uuid !== note.uuid)
+            })
+        });
     }
 
     render() {

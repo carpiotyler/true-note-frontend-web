@@ -34,6 +34,19 @@ class Request {
         }
         return res;
     }
+
+    async del(endpoint, string, config) {
+        let res;
+        try {
+            res = await Axios.delete(`${this.base}${endpoint}?id_token=${this.id_token}&access_token=${this.access_token}&${string}`, Object.assign({}, this.config, config))
+            if(res.data.error === 'Not Authorized') {
+                redirectSignIn();
+            }
+        } catch(err) {
+            console.log(err)
+        }
+        return res;
+    }
 }
 
 const redirectSignIn = function() {
