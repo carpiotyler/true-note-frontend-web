@@ -3,17 +3,18 @@ import ReactQuill from 'react-quill';
 import Button from './Button';
 
 import 'react-quill/dist/quill.snow.css'
+import '../css/quill-overrides.css'
 
 class NotesEditor extends Component {
 
     editorStyle = {
         position: 'fixed',
-        left: '10%',
-        bottom: '10%',
+        left: '5%',
+        bottom: '5%',
         borderRadius: '20px',
-        height: '80%',
-        width: '80%',
-        backgroundColor: '#fcfcfc'
+        height: '90%',
+        width: '90%',
+        backgroundColor: 'antiquewhite'
     }
 
     quillStyle = {
@@ -22,7 +23,7 @@ class NotesEditor extends Component {
         width: 'calc(100% - 40px)',
         marginTop: '20px',
         marginRight: '20px',
-        marginBottom: '10%'
+        backgroundColor: 'antiquewhite'
     }
 
     saveButtonStyle = {
@@ -41,7 +42,7 @@ class NotesEditor extends Component {
     }
 
     saveAreaStyle = {
-        height: '10%',
+        height: '5%',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'flex-end'

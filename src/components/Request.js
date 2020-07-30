@@ -25,8 +25,8 @@ class Request {
     async post(endpoint, body, config) {
         let res;
         try {
-            res = Axios.post(`${this.base}${endpoint}?id_token=${this.id_token}&access_token=${this.access_token}`, body, Object.assign({}, this.config, config))
-            if(res.data.error = 'Not Authorized') {
+            res = await Axios.post(`${this.base}${endpoint}?id_token=${this.id_token}&access_token=${this.access_token}`, body, Object.assign({}, this.config, config))
+            if(res.data.error === 'Not Authorized') {
                 redirectSignIn();
             }
         } catch(err) {
