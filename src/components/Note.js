@@ -31,17 +31,17 @@ function Note(props) {
     const actionStyle = {
         width: '10%',
         height: '100%',
-        textAlign: 'center',
+        verticalAlign: '-webkit-baseline-middle',
+        textAlign: 'center'
+    }
+
+    const faStyle = {
+        cursor: 'pointer',
         fontSize: '24px',
         color: '#fdfdfd',
         WebkitTextStrokeWidth: '1px',
         WebkitTextStrokeColor: 'lightgrey',
         textShadow: '0 1px 2px #888888'
-    }
-
-    const faStyle = {
-        verticalAlign: '-webkit-baseline-middle',
-        cursor: 'pointer'
     }
 
     const noteStyle = {
@@ -51,14 +51,6 @@ function Note(props) {
         maringRight: '2%'
     }
 
-    const updateNote = function() {
-        props.updateNote(note);
-    }
-
-    const deleteNote = function() {
-        props.deleteNote(note);
-    }
-
     return (
         <div style={style}>
             <div style={headerStyle}>
@@ -66,10 +58,10 @@ function Note(props) {
                     <h2>Placeholder</h2>
                 </div>
                 <div style={actionStyle}>
-                    <FontAwesome name='times' style={faStyle} onClick={() => deleteNote()} />
+                    <FontAwesome name='times' style={faStyle} onClick={() => props.deleteNote(note)} />    
                 </div>
                 <div style={actionStyle}>
-                    <FontAwesome name='ellipsis-v' style={faStyle} onClick={() => updateNote()}/>
+                    <FontAwesome name='ellipsis-v' style={faStyle} onClick={() => props.setEditor({display: true, note: note})}/>
                 </div>
             </div>
             <div style={noteStyle} dangerouslySetInnerHTML={{__html: note.html}}>

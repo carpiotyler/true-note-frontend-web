@@ -65,11 +65,11 @@ class NotesEditor extends Component {
         return (
             <div style={this.editorStyle}>
                 <div style={this.editorAreaStyle}>
-                    <ReactQuill style= {this.quillStyle} onChange={(value) => this.handleChange(value)}/>
+                    <ReactQuill style= {this.quillStyle} onChange={(value) => this.handleChange(value)} value={this.state.quillText || this.props.note?.html}/>
                 </div>
                 <div style={this.saveAreaStyle}>
                     <Button style={this.cancelButtonStyle} text="Cancel" onClick={() => this.props.onDone()}/>
-                    <Button style={this.saveButtonStyle} text="Save" onClick={() => this.props.onDone(this.state)}/>
+                    <Button style={this.saveButtonStyle} text="Save" onClick={() => this.props.onDone(this.state.quillText)}/>
                 </div>
             </div>
         )
