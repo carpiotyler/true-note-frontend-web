@@ -10,8 +10,8 @@ function Note(props) {
         backgroundColor: '#fcfcfc',
         borderRadius: '5px',
         height: '400px',
-        width: '23%',
-        margin: '1%',
+        width: isMobile ? '95%' : '23%',
+        margin: isMobile? '2.5%': '1%',
         boxShadow: '0 1px 6px #888888'
     }
 

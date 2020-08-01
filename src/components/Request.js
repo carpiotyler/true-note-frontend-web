@@ -47,6 +47,19 @@ class Request {
         }
         return res;
     }
+
+    async patch(endpoint, body, config) {
+        let res;
+        try {
+            res = await Axios.patch(`${this.base}${endpoint}?id_token=${this.id_token}&access_token=${this.access_token}`, body, Object.assign({}, this.config, config));
+            if(res.data.error === 'Not Authorized') {
+                redirectSignIn();
+            }
+        } catch(err) {
+            console.log(err)
+        }
+        return res;
+    }
 }
 
 const redirectSignIn = function() {

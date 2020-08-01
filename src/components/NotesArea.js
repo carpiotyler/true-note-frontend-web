@@ -85,8 +85,22 @@ class NotesArea extends Component {
         });
     }
 
-    updateNote(note) {
-        
+    updateNote(uuid, html) {
+        this.request.patch('notes', {uuid: uuid, html: html})
+        .then(res => {
+            console.log(res.data);
+            let note = res.data;
+            let data = this.state.data;
+            let existingNote = data.find(x => x.uuid === note.uuid);
+            Object.assign(existingNote, note);
+            this.setEditor({
+                display: false,
+                note: null
+            })
+        })
+        .catch(err => {
+            console.error(err);
+        })
     }
 
     deleteNote(note) {
@@ -104,7 +118,7 @@ class NotesArea extends Component {
 
     handleEdit(html) {
         if(html) {
-            let uuid = this.state.editor.uuid
+            let uuid = this.state.editor.note.uuid
             if(uuid) {
                 // Update
                 this.updateNote(uuid, html);
