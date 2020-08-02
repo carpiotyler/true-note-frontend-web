@@ -3,6 +3,8 @@ import NotesAppToolBar from './NotesAppToolbar';
 import NotesArea from './NotesArea';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 
+
+
 function NotesApp() {
     // parse tokens if present in url or redirect to authenticate if we somehow got here but not through Cognito
     const id_token = window.location.hash.indexOf('id_token') > -1 ? window.location.hash.replace('#', '').split('&').find(str => str.indexOf('id_token') > -1).split('=')[1] : localStorage.getItem('id_token');
