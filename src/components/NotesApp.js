@@ -1,5 +1,6 @@
 import React from 'react';
 import NotesAppToolBar from './NotesAppToolbar';
+import NotesSideNav from './NotesSideNav';
 import NotesArea from './NotesArea';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 
@@ -17,11 +18,24 @@ function NotesApp() {
         localStorage.setItem('access_token', access_token);
     }
 
+    const style = {
+        display: 'flex',
+        width: '100%'
+    }
+
+    const rightPane = {
+        width: 'calc(100% - 64px)',
+        height: '100%'
+    }
+
     return (
         <Router>
-            <div>
-                <NotesAppToolBar />
-                <NotesArea id_token={id_token} access_token={access_token}/>
+            <div style={style}>
+                <NotesSideNav />
+                <div style={rightPane}>
+                    <NotesAppToolBar />
+                    <NotesArea id_token={id_token} access_token={access_token}/>
+                </div>
             </div>
         </Router>
     )

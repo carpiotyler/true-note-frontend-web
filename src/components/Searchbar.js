@@ -2,10 +2,11 @@ import React from 'react';
 
 function SearchBar(props) {
     const componentStyle = {
-        width: '65%',
+        width: '70%',
         height: '100%',
         display: 'flex',
-        alignItems: 'center'
+        alignItems: 'center',
+        paddingLeft: '20px'
     }
 
     const searchStyle = {

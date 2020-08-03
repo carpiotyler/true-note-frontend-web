@@ -110,7 +110,7 @@ class NotesArea extends Component {
                 data: this.state.data.filter(x => x.uuid !== note.uuid),
                 editor: {
                     display: false,
-                    uuid: null
+                    note: null
                 }
             })
         });
@@ -118,7 +118,7 @@ class NotesArea extends Component {
 
     handleEdit(html) {
         if(html) {
-            let uuid = this.state.editor.note.uuid
+            let uuid = this.state.editor.note?.uuid
             if(uuid) {
                 // Update
                 this.updateNote(uuid, html);
@@ -138,10 +138,15 @@ class NotesArea extends Component {
         }
     }
 
+    style = {
+        overflow: 'auto',
+        height: '95vh'
+    }
+
     render() {
         let conditionalJSX = this.state.editor.display ? (<Editor note ={this.state.editor.note} onDone={(note) => this.handleEdit(note)}/>) : (<CreateNoteButton setEditor={(editor) =>this.setEditor(editor)}/>);
         return (
-            <div>
+            <div style={this.style}>
                 {this.getNoteRows(this.state.data)}
                 {conditionalJSX}
             </div>

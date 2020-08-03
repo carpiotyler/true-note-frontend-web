@@ -3,12 +3,12 @@ import Button from './Button';
 
 function Profile() {
     const componentStyle = {
-        width: '25%'
+        width: '30%'
     }
 
     const buttonStyle = {
         float: 'right',
-        marginRight: '5%',
+        marginRight: '2%',
         maxWidth: '100px',
         width: '100%',
         height: '30px',

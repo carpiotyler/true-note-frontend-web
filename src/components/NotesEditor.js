@@ -14,7 +14,8 @@ class NotesEditor extends Component {
         borderRadius: '20px',
         height: '90%',
         width: '90%',
-        backgroundColor: 'antiquewhite'
+        backgroundColor: 'antiquewhite',
+        zIndex: '9999'
     }
 
     quillStyle = {
@@ -28,13 +29,15 @@ class NotesEditor extends Component {
 
     saveButtonStyle = {
         backgroundColor: '#fe5f55',
-        margin: '5px'
+        margin: '5px',
+        zIndex: '999999'
     }
 
     cancelButtonStyle = {
         backgroundColor: 'lightgrey',
         margin: '5px',
-        color: '#141115'
+        color: '#141115',
+        zIndex: '999999'
     }
 
     editorAreaStyle = {

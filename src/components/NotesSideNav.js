@@ -6,8 +6,7 @@ import '@trendmicro/react-sidenav/dist/react-sidenav.css';
  
 function NotesSideNav() {
     const componentStyle = {
-        width: '10%',
-        paddingLeft: '5px'
+        width: '64px'
     }
 
     const buttonStyle = {

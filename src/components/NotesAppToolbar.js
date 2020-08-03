@@ -1,5 +1,4 @@
 import React from 'react';
-import NotesSideNav from './NotesSideNav';
 import SearchBar from './Searchbar';
 import Profile from './Profile';
 
@@ -14,7 +13,6 @@ function NotesAppToolbar() {
     
     return (
         <div style={barStyle}>
-            <NotesSideNav />
             <SearchBar name='Note'/>
             <Profile />
         </div>
