@@ -1,8 +1,9 @@
-import React, {Component, useState}from 'react';
+import React, {Component, useContext}from 'react';
 import {BrowserView, MobileView, isMobile} from 'react-device-detect';
 import Note from './Note';
 import Request from './Request';
 import Editor from './NotesEditor';
+import LoadingOverlay from 'react-loading-overlay';
 import CreateNoteButton from './CreateNoteButton';
 
 class NotesArea extends Component {
@@ -20,7 +21,8 @@ class NotesArea extends Component {
             editor: {
                 display: false,
                 note: null
-            }
+            },
+            loading: false
         }
         this.request = new Request(props.id_token, props.access_token);
     }
@@ -28,21 +30,26 @@ class NotesArea extends Component {
     componentDidMount() {
         this.request.get('notes')
         .then(res => {
-            this.setState({
-                data: res.data.Items,
-                editor: {
-                    display: false,
-                    note: null
-                }
-            })
+            this.setData(res.data.Items);
+            this.setLoading(false);
         });
+        this.setLoading(true);
+    }
+
+    setData(data) {
+        this.setState(Object.assign({}, this.state, {data: data}));
     }
 
     setEditor(editor) {
-        this.setState({
-            data: this.state.data,
-            editor: editor
-        });
+        this.setState(Object.assign({}, this.state, {editor: editor}));
+    }
+
+    setLoading(bool) {
+        this.setState(Object.assign({}, this.state, {loading: bool}));
+    }
+
+    setLoadingAndEditor(loading, editor) {
+        this.setState(Object.assign({}, this.state, {loading: loading}, {editor: editor}));
     }
 
     getNoteRows(notes) {
@@ -75,13 +82,11 @@ class NotesArea extends Component {
             let note = res.data;
             let data = this.state.data;
             data.unshift(note)
-            this.setEditor({
-                display: false,
-                note: null
-            })
-        })
-        .catch(err => {
-            console.error(err);
+            this.setLoading(false);
+        });
+        this.setLoadingAndEditor(true, {
+            display: false,
+            note: null
         });
     }
 
@@ -93,14 +98,12 @@ class NotesArea extends Component {
             let data = this.state.data;
             let existingNote = data.find(x => x.uuid === note.uuid);
             Object.assign(existingNote, note);
-            this.setEditor({
-                display: false,
-                note: null
-            })
-        })
-        .catch(err => {
-            console.error(err);
-        })
+            this.setLoading(false);
+        });
+        this.setLoadingAndEditor(true, {
+            display: false,
+            note: null
+        });
     }
 
     deleteNote(note) {
@@ -112,8 +115,10 @@ class NotesArea extends Component {
                     display: false,
                     note: null
                 }
-            })
+            });
+            this.setLoading(false);
         });
+        this.setLoading(true);
     }
 
     handleEdit(html) {
@@ -146,10 +151,12 @@ class NotesArea extends Component {
     render() {
         let conditionalJSX = this.state.editor.display ? (<Editor note ={this.state.editor.note} onDone={(note) => this.handleEdit(note)}/>) : (<CreateNoteButton setEditor={(editor) =>this.setEditor(editor)}/>);
         return (
-            <div style={this.style}>
-                {this.getNoteRows(this.state.data)}
-                {conditionalJSX}
-            </div>
+            <LoadingOverlay active={this.state.loading} spinner text='Loading...'>
+                <div style={this.style}>
+                        {this.getNoteRows(this.state.data)}
+                        {conditionalJSX}
+                </div>
+            </LoadingOverlay>
         )
     }
 }
