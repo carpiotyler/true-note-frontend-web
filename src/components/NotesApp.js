@@ -2,7 +2,9 @@ import React from 'react';
 import NotesAppToolBar from './NotesAppToolbar';
 import NotesSideNav from './NotesSideNav';
 import NotesArea from './NotesArea';
-import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
+import GoalsArea from './GoalsArea';
+import TrendsArea from './TrendsArea';
+import {BrowserRouter as Router, Switch, Route, Redirect} from 'react-router-dom';
 
 function NotesApp() {
     // parse tokens if present in url or redirect to authenticate if we somehow got here but not through Cognito
@@ -31,8 +33,21 @@ function NotesApp() {
             <div style={style}>
                 <NotesSideNav />
                 <div style={rightPane}>
-                    <NotesAppToolBar />
-                    <NotesArea id_token={id_token} access_token={access_token}/>
+                    <Route exact path="/app">
+                        <Redirect to="/app/notes" />
+                    </Route>
+                    <Route exact path="/app/notes">
+                        <NotesAppToolBar />
+                        <NotesArea id_token={id_token} access_token={access_token}/>
+                    </Route>
+                    <Route exact path="/app/goals">
+                        <NotesAppToolBar />
+                        <GoalsArea id_token={id_token} access_token={access_token}/>
+                    </Route>
+                    <Route exact path="/app/trends">
+                        <NotesAppToolBar />
+                        <TrendsArea id_token={id_token} access_token={access_token}/>
+                    </Route>
                 </div>
             </div>
         </Router>
