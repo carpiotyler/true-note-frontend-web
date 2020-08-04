@@ -1,6 +1,6 @@
 import React from 'react';
-import Home from './Home';
-import NotesApp from './NotesApp'
+import Home from './Landing/Home';
+import NotesApp from './NotesApp/NotesApp'
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 
 function App() {

@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import NotesAppToolBar from './NotesAppToolbar';
 import NotesSideNav from './NotesSideNav';
-import NotesArea from './NotesArea';
-import GoalsArea from './GoalsArea';
-import Request from './Request';
-import TrendsArea from './TrendsArea';
-import UserContext from './UserContext';
+import NotesArea from './Notes/NotesArea';
+import GoalsArea from './Goals/GoalsArea';
+import Request from '../utils/Request';
+import TrendsArea from './Trends/TrendsArea';
+import UserContext from '../utils/UserContext';
 import {BrowserRouter as Router, Route, Redirect} from 'react-router-dom';
 
 export default class NotesApp extends Component {
@@ -46,7 +46,9 @@ export default class NotesApp extends Component {
     componentDidMount() {
         this.request.get('user-data')
         .then(res => {
-            this.setState(Object.assign({}, this.state, {context: {user_data: res.data}}))
+            if(res.data.name !== 'TokenExpiredError') {
+                this.setState(Object.assign({}, this.state, {context: {user_data: res.data}}))
+            }
         });
     }
 

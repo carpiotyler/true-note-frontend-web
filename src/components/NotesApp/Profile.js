@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import UserContext from './UserContext';
-import Button from './Button';
+import UserContext from '../utils/UserContext';
+import Button from '../Button';
 
 export default class Profile extends Component {
     componentStyle = {
@@ -16,6 +16,15 @@ export default class Profile extends Component {
         backgroundColor: '#fe5f55'
     }
 
+    menuStyle = {
+        width: '100%',
+        height: '0'
+    }
+
+    constructor() {
+        super()
+    }
+
     render() {
         return (
             <div style = {this.componentStyle}>
@@ -24,7 +33,9 @@ export default class Profile extends Component {
                         (state) => {
                             let text = state.context.user_data['cognito:username'];
                             return (
-                                <Button style={this.buttonStyle} text={text}/>
+                                <div>
+                                    <Button style={this.buttonStyle} text={text}/>
+                                </div>
                             )
                         }
                     }

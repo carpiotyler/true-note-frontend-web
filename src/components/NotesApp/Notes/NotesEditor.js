@@ -1,9 +1,9 @@
 import  React, {Component} from 'react';
 import ReactQuill from 'react-quill';
-import Button from './Button';
+import Button from '../../Button';
 
 import 'react-quill/dist/quill.snow.css'
-import '../css/quill-overrides.css'
+import '../../../css/quill-overrides.css'
 
 class NotesEditor extends Component {
 
