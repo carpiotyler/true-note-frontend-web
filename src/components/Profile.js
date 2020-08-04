@@ -1,12 +1,13 @@
-import React from 'react';
+import React, {Component} from 'react';
+import UserContext from './UserContext';
 import Button from './Button';
 
-function Profile() {
-    const componentStyle = {
+export default class Profile extends Component {
+    componentStyle = {
         width: '30%'
     }
 
-    const buttonStyle = {
+    buttonStyle = {
         float: 'right',
         marginRight: '2%',
         maxWidth: '100px',
@@ -15,11 +16,20 @@ function Profile() {
         backgroundColor: '#fe5f55'
     }
 
-    return (
-        <div style = {componentStyle}>
-            <Button style={buttonStyle} text='placeholder'/>
-        </div>
-    )
+    render() {
+        return (
+            <div style = {this.componentStyle}>
+                <UserContext.Consumer>
+                    {
+                        (state) => {
+                            let text = state.context.user_data['cognito:username'];
+                            return (
+                                <Button style={this.buttonStyle} text={text}/>
+                            )
+                        }
+                    }
+                </UserContext.Consumer>
+            </div>
+        )
+    }
 }
-
-export default Profile;

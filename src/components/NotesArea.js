@@ -1,5 +1,5 @@
-import React, {Component, useContext}from 'react';
-import {BrowserView, MobileView, isMobile} from 'react-device-detect';
+import React, {Component}from 'react';
+import {isMobile} from 'react-device-detect';
 import Note from './Note';
 import Request from './Request';
 import Editor from './NotesEditor';

@@ -17,7 +17,7 @@ class Request {
                 redirectSignIn();
             }
         } catch(err) {
-            redirectSignIn();
+            console.error(err);
         }
         return res;
     }
@@ -30,7 +30,7 @@ class Request {
                 redirectSignIn();
             }
         } catch(err) {
-            redirectSignIn();
+            console.error(err);
         }
         return res;
     }
