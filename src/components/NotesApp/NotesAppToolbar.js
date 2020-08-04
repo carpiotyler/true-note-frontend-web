@@ -8,7 +8,8 @@ function NotesAppToolbar() {
         width: '100%',
         height: '5vh',
         display: 'flex',
-        alignItems: 'center'
+        alignItems: 'center',
+        paddingTop: '5px'
     }
     
     return (

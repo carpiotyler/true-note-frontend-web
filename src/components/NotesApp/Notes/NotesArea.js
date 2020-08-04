@@ -3,7 +3,7 @@ import {isMobile} from 'react-device-detect';
 import Note from './Note';
 import Request from '../../utils/Request';
 import Editor from './NotesEditor';
-import LoadingOverlay from 'react-loading-overlay';
+import {Loader, Dimmer} from 'semantic-ui-react'
 import CreateNoteButton from './CreateNoteButton';
 
 class NotesArea extends Component {
@@ -151,12 +151,13 @@ class NotesArea extends Component {
     render() {
         let conditionalJSX = this.state.editor.display ? (<Editor note ={this.state.editor.note} onDone={(note) => this.handleEdit(note)}/>) : (<CreateNoteButton setEditor={(editor) =>this.setEditor(editor)}/>);
         return (
-            <LoadingOverlay active={this.state.loading} spinner text='Loading...'>
-                <div style={this.style}>
-                        {this.getNoteRows(this.state.data)}
-                        {conditionalJSX}
-                </div>
-            </LoadingOverlay>
+            <div style={this.style}>
+                <Dimmer active={this.state.loading} style={{opacity: '0.3'}}>
+                    <Loader active={this.state.loading} />
+                </Dimmer>
+                {this.getNoteRows(this.state.data)}
+                {conditionalJSX}
+            </div>
         )
     }
 }

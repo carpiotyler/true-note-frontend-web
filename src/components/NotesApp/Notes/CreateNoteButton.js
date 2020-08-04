@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Button from '../../Button';
+import {Button} from 'semantic-ui-react';
 
 
 class CreateNoteButton extends Component {
@@ -8,13 +8,12 @@ class CreateNoteButton extends Component {
         bottom: '2%',
         right: '2%',
         fontSize: '16px',
-        width: '120px',
-        backgroundColor: '#fe5f55'
+        width: '120px'
     }
 
     render() {
         return (
-            <Button style={this.createNoteStyle} text="New Note" onClick={() => this.props.setEditor({display: true, note: null})}/>
+            <Button color="purple" style={this.createNoteStyle} onClick={() => this.props.setEditor({display: true, note: null})}>Add Note</Button>
         )
     }
 }

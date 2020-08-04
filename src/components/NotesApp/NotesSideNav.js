@@ -3,7 +3,6 @@ import SideNav, {Toggle, Nav, NavItem, NavIcon, NavText} from '@trendmicro/react
 import FontAwesome from 'react-fontawesome';
 import faStyles from 'font-awesome/css/font-awesome.css';
 import '@trendmicro/react-sidenav/dist/react-sidenav.css';
-import { Redirect } from 'react-router-dom';
  
 export default class NotesSideNav extends Component {
     componentStyle = {
@@ -16,7 +15,7 @@ export default class NotesSideNav extends Component {
     }
 
     navStyle = {
-
+        backgroundColor: '#a333c8'
     }
 
     handleSelect = function(selected) {
@@ -29,7 +28,7 @@ export default class NotesSideNav extends Component {
         const navSelected = window.location.href.split('/')[window.location.href.split('/').length - 1];
         return (
             <div style= {this.componentStyle}>
-                <SideNav onSelect={(selected) => this.handleSelect(selected)}>
+                <SideNav style={this.navStyle} onSelect={(selected) => this.handleSelect(selected)}>
                     <SideNav.Toggle />
                     <SideNav.Nav defaultSelected={navSelected}>
                         <NavItem eventKey="notes">
