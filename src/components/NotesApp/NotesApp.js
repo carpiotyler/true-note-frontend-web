@@ -46,8 +46,10 @@ export default class NotesApp extends Component {
     componentDidMount() {
         this.request.get('user-data')
         .then(res => {
-            if(res.data.name !== 'TokenExpiredError') {
+            if(res) {
                 this.setState(Object.assign({}, this.state, {context: {user_data: res.data}}))
+            } else {
+                this.request.redirectSignIn()
             }
         });
     }
