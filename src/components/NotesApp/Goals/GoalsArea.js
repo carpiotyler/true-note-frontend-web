@@ -5,6 +5,7 @@ import Request from '../../utils/Request';
 import Editor from './GoalsEditor';
 import {Loader, Dimmer} from 'semantic-ui-react'
 import CreateGoalButton from './CreateGoalButton';
+import GoalsEditor from './GoalsEditor';
 
 class GoalsArea extends Component {
 
@@ -57,7 +58,7 @@ class GoalsArea extends Component {
             return (
                 goals.map((goal, index) => {
                     return (<div key={index} style={this.goalsRowStyle}>
-                        <Goal key={goal.uuid} goal={goal} setEditor={(editor) => this.setEditor(editor)} deletegoal={(goal) => this.deletegoal(goal)}/>
+                        <Goal key={goal.uuid} goal={goal} setEditor={(editor) => this.setEditor(editor)} deleteGoal={(goal) => this.deleteGoal(goal)}/>
                     </div>)
                 })
             )
@@ -66,7 +67,7 @@ class GoalsArea extends Component {
             for(let i = 0; i < goals.length; i+=4) {
                 let goalsElemList = [];
                 for(let j = i; j < i + 4 && j < goals.length; j++) {
-                    goalsElemList.push(<goal key={goals[j].uuid} goal ={goals[j]} setEditor={(editor) => this.setEditor(editor)} deletegoal={(goal) => this.deletegoal(goal)}/>);
+                    goalsElemList.push(<Goal key={goals[j].uuid} goal ={goals[j]} setEditor={(editor) => this.setEditor(editor)} deleteGoal={(goal) => this.deleteGoal(goal)}/>);
                 }
                 goalsRowList.push(<div key={i/4} style={this.goalsRowStyle}>
                     {goalsElemList}
@@ -76,8 +77,13 @@ class GoalsArea extends Component {
         }
     }
 
-    createGoal(html) {
-        this.request.post('goals', {html: html})
+    createGoal(editorState) {
+        this.request.post('goals', {
+            title: editorState.title,
+            description: editorState.description,
+            frequency: editorState.frequency,
+            period: editorState.period
+        })
         .then(res => {
             let goal = res.data;
             let data = this.state.data;
@@ -121,15 +127,15 @@ class GoalsArea extends Component {
         this.setLoading(true);
     }
 
-    handleEdit(html) {
-        if(html) {
+    handleEdit(editorState) {
+        if(editorState) {
             let uuid = this.state.editor.goal?.uuid
             if(uuid) {
                 // Update
-                this.updategoal(uuid, html);
+                this.updateGoal(uuid, editorState);
             } else {
                 // Create
-                this.creategoal(html);
+                this.createGoal(editorState);
             }
         } else {
             // Just closing
@@ -148,15 +154,22 @@ class GoalsArea extends Component {
         height: '95vh'
     }
 
+    createNoteStyle = {
+        position: 'fixed',
+        bottom: '2%',
+        right: '2%',
+        fontSize: '16px',
+        width: '120px'
+    }
+
     render() {
-        let conditionalJSX = this.state.editor.display ? (<Editor goal ={this.state.editor.goal} onDone={(goal) => this.handleEdit(goal)}/>) : (<CreateGoalButton setEditor={(editor) =>this.setEditor(editor)}/>);
         return (
             <div style={this.style}>
                 <Dimmer active={this.state.loading} style={{opacity: '0.3'}}>
                     <Loader active={this.state.loading} />
                 </Dimmer>
                 {this.getGoalRows(this.state.data)}
-                {conditionalJSX}
+                <GoalsEditor buttonStyle={this.createNoteStyle} onDone={(editorState) => this.handleEdit(editorState)}/>
             </div>
         )
     }

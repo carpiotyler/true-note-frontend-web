@@ -1,6 +1,6 @@
 import  React, {Component} from 'react';
 import ReactQuill from 'react-quill';
-import Button from '../../Button';
+import {Button, Header, Modal, Form, Dropdown} from 'semantic-ui-react';
 
 import 'react-quill/dist/quill.snow.css'
 import '../../../css/quill-overrides.css'
@@ -30,27 +30,108 @@ class GoalsEditor extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            quillText: props.quillText
+            uuid: props.uuid,
+            open: false,
+            title: '',
+            description: '',
+            frequency: 0,
+            period: 'week'
         }
     }
 
-    handleChange(value) {
-        this.setState({
-            quillText: value
-        })
+    handleModalClose() {
+        this.set('open', false);
+    }
+
+    set(key, value) {
+        let params = {};
+        params[key] = value;
+        this.setState(Object.assign({}, this.state, params));
     }
 
     render() {
+        const options = [
+            {
+                key:'week',
+                text:'week',
+                value: 'week'
+            },
+            {
+                key:'month',
+                text:'month',
+                value: 'month'
+            },
+            {
+                key:'year',
+                text:'year',
+                value: 'year'
+            }
+        ]
+
+        const freqContainerStyle = {
+            display: 'flex',
+            alignItems: 'center',
+            fontSize: '20px',
+            fontStyle: 'italic'
+        }
+
+        const freqInputStyle = {
+            width: '50px',
+            height: '24px',
+            marginLeft: '6px',
+            marginRight: '6px',
+            paddingRight: '0',
+            paddingLeft: '10px'
+        }
+
+        const perInputStyle = {
+            minWidth: '120px',
+            width: '120px',
+            height: '36px',
+            minHeight: '36px',
+            paddingTop: '2px',
+            paddingBottom: '2px',
+            paddingLeft: '10px',
+            paddingRight: '20px',
+            marginLeft: '6px',
+            display: 'flex',
+            alignItems: 'center'
+        }
+
+        const modalStyle = {
+            fontSize: '20px'
+        }
+
         return (
-            <div style={this.editorStyle}>
-                <div style={this.editorAreaStyle}>
-                    <ReactQuill style= {this.quillStyle} onChange={(value) => this.handleChange(value)} value={this.state.quillText || this.props.goal?.html}/>
-                </div>
-                <div style={this.saveAreaStyle}>
-                    <Button style={this.cancelButtonStyle} text="Cancel" onClick={() => this.props.onDone()}/>
-                    <Button style={this.saveButtonStyle} text="Save" onClick={() => this.props.onDone(this.state.quillText)}/>
-                </div>
-            </div>
+            <Modal 
+                open={this.state.open} 
+                onOpen={() => this.set('open', true)} 
+                onClose={() => this.handleModalClose()} 
+                trigger={<Button color='purple' style={this.props.buttonStyle}>Add Goal</Button>}
+                style={modalStyle}
+            >
+                <Modal.Header>{this.state.uuid ? 'Edit' : 'Add'} Goal</Modal.Header>
+                <Modal.Content>
+                    <Form>
+                        <Form.Input label="Title" type="text" placeholder="Enter a title..." onChange={(event, title) => this.set('title', title.value)}/>
+                        <Form.Field>
+                            <label>Description</label>
+                            <ReactQuill onChange={(quillText) => this.set('description', quillText)} />
+                        </Form.Field>
+                        <Form.Field>
+                            <label>Frequency</label>
+                            <div style={freqContainerStyle}>
+                                "I want to focus on this <input style={freqInputStyle} type='number' placeholder='3' onChange={(event) => this.set('frequency', parseInt(event.target.value))}/> times per
+                                <Dropdown placeholder='week' selection options={options} style={perInputStyle}/>".
+                            </div>
+                        </Form.Field>
+                    </Form>
+                </Modal.Content>
+                <Modal.Actions>
+                    <Button style={this.cancelButtonStyle} onClick={() => this.set('open', false)}>Cancel</Button>
+                    <Button color="purple" style={this.saveButtonStyle} onClick={() => this.props.onDone(this.state)}>Save</Button>
+                </Modal.Actions>
+            </Modal>
         )
     }
 }
