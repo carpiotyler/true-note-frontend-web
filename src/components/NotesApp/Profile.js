@@ -27,6 +27,11 @@ export default class Profile extends Component {
         super()
     }
 
+    handleChange(selected) {
+        // TODO actually logout
+        window.location.href = '/'
+    }
+
     render() {
         return (
             <div style = {this.componentStyle}>
@@ -38,7 +43,7 @@ export default class Profile extends Component {
                             return (
                                 <Button.Group style={this.componentStyle} color='purple'>
                                     <Button style={this.buttonStyle}>{text}</Button>
-                                    <Dropdown style= {this.dropDownStyle} className = 'button icon' floating options={[logout]} trigger={<></>}/>
+                                    <Dropdown style= {this.dropDownStyle} className = 'button icon' floating options={[logout]} trigger={<></>} onChange={(selected) => this.handleChange(selected)}/>
                                 </Button.Group>
                             )
                         }

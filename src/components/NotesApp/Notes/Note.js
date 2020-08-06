@@ -1,72 +1,39 @@
 import React from 'react';
-import FontAwesome from 'react-fontawesome';
+import {Card} from 'semantic-ui-react'
 import {isMobile} from 'react-device-detect';
-import faStyles from 'font-awesome/css/font-awesome.css';
+import moment from 'moment';
 
 function Note(props) {
     const note = props.note;
-
+    
     const style = {
         backgroundColor: '#fcfcfc',
-        borderRadius: '5px',
         height: '400px',
         width: isMobile ? '95%' : '23%',
-        margin: isMobile? '2.5%': '1%',
-        boxShadow: '0 1px 6px #888888'
+        margin: isMobile? '2.5%': '1%'
     }
 
-    const headerStyle = {
-        width: '100%',
-        display: 'flex',
-        height: '10%'
-    }
-
-    const titleStyle = {
-        width: '90%',
+    const cardstyle = {
         height: '100%',
-        paddingLeft: '10px',
-        verticalAlign: 'middle'
+        width: '100%'
     }
 
-    const actionStyle = {
-        width: '10%',
-        height: '100%',
-        verticalAlign: '-webkit-baseline-middle',
-        textAlign: 'center'
-    }
-
-    const faStyle = {
-        cursor: 'pointer',
-        fontSize: '24px',
-        color: '#fdfdfd',
-        WebkitTextStrokeWidth: '1px',
-        WebkitTextStrokeColor: 'lightgrey',
-        textShadow: '0 1px 2px #888888'
-    }
-
-    const noteStyle = {
-        height: '90%',
-        width: '100%',
-        marginLeft: '2%',
-        maringRight: '2%'
+    const formatDate = function(dateString) {
+        let date = new Date(dateString);
+        return `Updated ${moment(date).format('M/D h:mma')}`
     }
 
     return (
         <div style={style}>
-            <div style={headerStyle}>
-                <div style={titleStyle}>
-                    <h2>Placeholder</h2>
-                </div>
-                <div style={actionStyle}>
-                    <FontAwesome name='times' style={faStyle} onClick={() => props.deleteNote(note)} />    
-                </div>
-                <div style={actionStyle}>
-                    <FontAwesome name='ellipsis-v' style={faStyle} onClick={() => props.setEditor({display: true, note: note})}/>
-                </div>
-            </div>
-            <div style={noteStyle} dangerouslySetInnerHTML={{__html: note.html}}>
-
-            </div>
+            <Card style={cardstyle}>
+                <Card.Content>
+                    <Card.Header>Placeholder</Card.Header>
+                    <Card.Meta>{formatDate(note.updated)}</Card.Meta>
+                    <Card.Description>
+                        <div dangerouslySetInnerHTML={{__html: note.html}}></div>
+                    </Card.Description>
+                </Card.Content>
+            </Card>
         </div>
     )
 

@@ -15,7 +15,6 @@ function SearchBar(props) {
         borderWidth: '1px',
         borderColor: '#141115',
         outline: 'none',
-        paddingLeft: '10px',
         color: '#141115'
     }
 
