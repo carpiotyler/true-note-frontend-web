@@ -78,7 +78,15 @@ export default class NotesApp extends Component {
                         </Route>
                         <Route exact path="/app/goals">
                             <NotesAppToolBar />
-                            <GoalsArea />
+                            <UserContext.Consumer>
+                                {
+                                    (state) => {
+                                        return (
+                                            <GoalsArea id_token={state.context.id_token} access_token={state.context.access_token}/>
+                                        )
+                                    }
+                                }
+                            </UserContext.Consumer>
                         </Route>
                         <Route exact path="/app/trends">
                             <NotesAppToolBar />

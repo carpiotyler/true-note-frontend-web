@@ -13,7 +13,7 @@ class CreateGoalButton extends Component {
 
     render() {
         return (
-            <Button color="purple" style={this.createNoteStyle} onClick={() => this.props.setEditor({display: true, note: null})}>Add Note</Button>
+            <Button color="purple" style={this.createNoteStyle} onClick={() => this.props.setEditor({display: true, note: null})}>Add Goal</Button>
         )
     }
 }
