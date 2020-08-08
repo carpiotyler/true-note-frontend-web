@@ -56,7 +56,7 @@ class GoalsArea extends Component {
             return (
                 goals.map((goal, index) => {
                     return (<div key={index} style={this.goalsRowStyle}>
-                        <Goal key={goal.uuid} goal={goal} setEditor={(editor) => this.setEditor(editor)} deleteGoal={(goal) => this.deleteGoal(goal)}/>
+                        <Goal key={goal.uuid} goal={goal} editGoal={(goal) => this.updateGoal(goal)} deleteGoal={(goal) => this.deleteGoal(goal)}/>
                     </div>)
                 })
             )
@@ -65,7 +65,7 @@ class GoalsArea extends Component {
             for(let i = 0; i < goals.length; i+=4) {
                 let goalsElemList = [];
                 for(let j = i; j < i + 4 && j < goals.length; j++) {
-                    goalsElemList.push(<Goal key={goals[j].uuid} goal ={goals[j]} setEditor={(editor) => this.setEditor(editor)} deleteGoal={(goal) => this.deleteGoal(goal)}/>);
+                    goalsElemList.push(<Goal key={goals[j].uuid} goal ={goals[j]} editGoal={(goal) => this.updateGoal(goal)} deleteGoal={(goal) => this.deleteGoal(goal)}/>);
                 }
                 goalsRowList.push(<div key={i/4} style={this.goalsRowStyle}>
                     {goalsElemList}
@@ -94,14 +94,20 @@ class GoalsArea extends Component {
         });
     }
 
-    updateGoal(uuid, html) {
-        this.request.patch('goals', {uuid: uuid, html: html})
+    updateGoal(goal) {
+        this.request.patch('goals', {
+            uuid: goal.uuid,
+            title: goal.title,
+            description: goal.description,
+            frequency: goal.frequency,
+            period: goal.period
+        })
         .then(res => {
             console.log(res.data);
             let goal = res.data;
             let data = this.state.data;
-            let existinggoal = data.find(x => x.uuid === goal.uuid);
-            Object.assign(existinggoal, goal);
+            let existingGoal = data.find(x => x.uuid === goal.uuid);
+            Object.assign(existingGoal, goal);
             this.setLoading(false);
         });
         this.setLoadingAndEditor(true, {

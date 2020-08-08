@@ -2,6 +2,8 @@ import React from 'react';
 import {Card, Icon, Button, Dropdown} from 'semantic-ui-react'
 import {isMobile} from 'react-device-detect';
 import moment from 'moment';
+import GoalsEditor from './GoalsEditor';
+import { render } from '@testing-library/react';
 
 function Goal(props) {
     const goal = props.goal;
@@ -22,17 +24,22 @@ function Goal(props) {
         float: 'right'
     }
 
+    const cardMenuPositionStyle = {
+        right: '0',
+        left: 'auto'
+    }
+
     const formatDate = function(dateString) {
         let date = new Date(dateString);
         return `Updated ${moment(date).format('M/D h:mma')}`
     }
 
     const handleEditButton = function() {
-
+        return render(<GoalsEditor open={true} goal={goal} onDone={(editorState) => props.editGoal(editorState)}/>)
     }
 
     const handleDelete = function() {
-
+        props.deleteGoal(goal);
     }
 
     return (
@@ -42,7 +49,7 @@ function Goal(props) {
                     <Card.Header>
                         {goal.title}
                         <Dropdown icon="ellipsis vertical" style={cardMenuStyle}>
-                            <Dropdown.Menu>
+                            <Dropdown.Menu style={cardMenuPositionStyle}>
                                 <Dropdown.Item icon='edit outline' text='Edit' onClick={() => handleEditButton()}/>
                                 <Dropdown.Item icon='trash alternate outline' text='Delete' onClick={() => handleDelete()}/>
                             </Dropdown.Menu>

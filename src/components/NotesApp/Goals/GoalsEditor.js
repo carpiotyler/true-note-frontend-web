@@ -29,13 +29,14 @@ class GoalsEditor extends Component {
 
     constructor(props) {
         super(props)
+        let goal = props.goal;
         this.state = {
-            uuid: props.uuid,
-            open: false,
-            title: '',
-            description: '',
-            frequency: 0,
-            period: 'week'
+            uuid: goal?.uuid,
+            open: props.open || false,
+            title: goal?.title || '',
+            description: goal?.description || '',
+            frequency: goal?.frequency || '',
+            period: goal?.period || ''
         }
     }
 
@@ -113,16 +114,16 @@ class GoalsEditor extends Component {
                 <Modal.Header>{this.state.uuid ? 'Edit' : 'Add'} Goal</Modal.Header>
                 <Modal.Content>
                     <Form>
-                        <Form.Input label="Title" type="text" placeholder="Enter a title..." onChange={(event, title) => this.set('title', title.value)}/>
+                        <Form.Input label="Title" type="text" placeholder="Enter a title..." onChange={(event, title) => this.set('title', title.value)} defaultValue={this.state.title}/>
                         <Form.Field>
                             <label>Description</label>
-                            <ReactQuill onChange={(quillText) => this.set('description', quillText)} />
+                            <ReactQuill onChange={(quillText) => this.set('description', quillText)} value={this.state.description}/>
                         </Form.Field>
                         <Form.Field>
                             <label>Frequency</label>
                             <div style={freqContainerStyle}>
-                                "I want to focus on this <input style={freqInputStyle} type='number' placeholder='3' onChange={(event) => this.set('frequency', parseInt(event.target.value))}/> times per
-                                <Dropdown placeholder='week' selection options={options} style={perInputStyle} onChange={(event) => this.set('period', event.target.children[0]?.innerText)}/>".
+                                "I want to focus on this <input style={freqInputStyle} type='number' placeholder='3' onChange={(event) => this.set('frequency', parseInt(event.target.value))} defaultValue={this.state.frequency}/> times per
+                                <Dropdown placeholder='week' selection options={options} style={perInputStyle} onChange={(event) => this.set('period', event.target.children[0]?.innerText)} defaultValue={this.state.period}/>".
                             </div>
                         </Form.Field>
                     </Form>
