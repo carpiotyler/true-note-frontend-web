@@ -1,5 +1,5 @@
 import React from 'react';
-import {Card, Icon} from 'semantic-ui-react'
+import {Card, Icon, Dropdown} from 'semantic-ui-react'
 import {isMobile} from 'react-device-detect';
 import moment from 'moment';
 
@@ -18,16 +18,44 @@ function Note(props) {
         width: '100%'
     }
 
+    const cardMenuStyle = {
+        float: 'right'
+    }
+
+    const cardMenuPositionStyle = {
+        right: '0',
+        left: 'auto'
+    }
+
     const formatDate = function(dateString) {
         let date = new Date(dateString);
         return `Updated ${moment(date).format('M/D h:mma')}`
+    }
+
+    const handleEditButton = function() {
+        props.setEditor({
+            display: true,
+            note: note
+        });
+    }
+
+    const handleDelete = function() {
+        props.deleteNote(note);
     }
 
     return (
         <div style={style}>
             <Card style={cardstyle}>
                 <Card.Content>
-                    <Card.Header>Placeholder</Card.Header>
+                    <Card.Header>
+                        Placeholder
+                        <Dropdown icon="ellipsis vertical" style={cardMenuStyle}>
+                            <Dropdown.Menu style={cardMenuPositionStyle}>
+                                <Dropdown.Item icon='edit outline' text='Edit' onClick={() => handleEditButton()}/>
+                                <Dropdown.Item icon='trash alternate outline' text='Delete' onClick={() => handleDelete()}/>
+                            </Dropdown.Menu>
+                        </Dropdown>
+                    </Card.Header>
                     <Card.Meta><Icon name="calendar alternate outline"/> {formatDate(note.updated)}</Card.Meta>
                     <Card.Description>
                         <div dangerouslySetInnerHTML={{__html: note.html}}></div>
