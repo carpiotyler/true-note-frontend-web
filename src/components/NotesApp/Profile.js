@@ -23,10 +23,6 @@ export default class Profile extends Component {
         height: '0'
     }
 
-    constructor() {
-        super()
-    }
-
     handleChange(selected) {
         // TODO actually logout
         window.location.href = '/'

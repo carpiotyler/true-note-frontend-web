@@ -1,6 +1,6 @@
 import  React, {Component} from 'react';
 import ReactQuill from 'react-quill';
-import {Button, Header, Modal, Form, Dropdown} from 'semantic-ui-react';
+import {Button, Modal, Form, Dropdown} from 'semantic-ui-react';
 
 import 'react-quill/dist/quill.snow.css'
 import '../../../css/quill-overrides.css'

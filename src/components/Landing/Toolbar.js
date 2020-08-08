@@ -20,7 +20,7 @@ function Toolbar() {
 
   return (
     <div style={style}>
-      <img src='Logo.png' height='100'></img>
+      <img src='Logo.png' height='100' alt="site logo"></img>
       <div style={rightFloatStyle}>
         <Button text='Sign In' height='40px' onClick={signIn}/>
       </div>

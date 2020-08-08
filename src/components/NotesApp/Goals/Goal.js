@@ -1,5 +1,5 @@
 import React from 'react';
-import {Card, Icon, Button, Dropdown} from 'semantic-ui-react'
+import {Card, Icon, Dropdown} from 'semantic-ui-react'
 import {isMobile} from 'react-device-detect';
 import moment from 'moment';
 import GoalsEditor from './GoalsEditor';

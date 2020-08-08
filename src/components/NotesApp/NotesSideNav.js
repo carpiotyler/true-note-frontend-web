@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
-import SideNav, {Toggle, Nav, NavItem, NavIcon, NavText} from '@trendmicro/react-sidenav';
-import FontAwesome from 'react-fontawesome';
-import faStyles from 'font-awesome/css/font-awesome.css';
+import {Icon} from 'semantic-ui-react';
+import SideNav, {NavItem, NavIcon, NavText} from '@trendmicro/react-sidenav';
 import '@trendmicro/react-sidenav/dist/react-sidenav.css';
  
 export default class NotesSideNav extends Component {
@@ -33,7 +32,7 @@ export default class NotesSideNav extends Component {
                     <SideNav.Nav defaultSelected={navSelected}>
                         <NavItem eventKey="notes">
                             <NavIcon>
-                                <i className="fa fa-fw fa-sticky-note" style={{ fontSize: '1.75em' }} />
+                                <Icon name="sticky note outline" size="large"/>
                             </NavIcon>
                             <NavText>
                                 Notes
@@ -41,7 +40,7 @@ export default class NotesSideNav extends Component {
                         </NavItem>
                         <NavItem eventKey="goals">
                             <NavIcon>
-                                <i className="fa fa-fw fa-bullseye" style={{ fontSize: '1.75em' }} />
+                                <Icon name="target" size="large"/>
                             </NavIcon>
                             <NavText>
                                 Goals
@@ -49,7 +48,7 @@ export default class NotesSideNav extends Component {
                         </NavItem>
                         <NavItem eventKey="trends">
                             <NavIcon>
-                                <i className="fa fa-fw fa-line-chart" style={{ fontSize: '1.75em' }} />
+                                <Icon name="chart bar" size="large"/>
                             </NavIcon>
                             <NavText>
                                 Trends
