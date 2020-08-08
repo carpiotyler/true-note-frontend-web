@@ -2,9 +2,7 @@ import React, {Component}from 'react';
 import {isMobile} from 'react-device-detect';
 import Goal from './Goal';
 import Request from '../../utils/Request';
-import Editor from './GoalsEditor';
 import {Loader, Dimmer} from 'semantic-ui-react'
-import CreateGoalButton from './CreateGoalButton';
 import GoalsEditor from './GoalsEditor';
 
 class GoalsArea extends Component {

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Card} from 'semantic-ui-react'
+import {Card, Icon} from 'semantic-ui-react'
 import {isMobile} from 'react-device-detect';
 import moment from 'moment';
 
@@ -28,7 +28,7 @@ function Note(props) {
             <Card style={cardstyle}>
                 <Card.Content>
                     <Card.Header>Placeholder</Card.Header>
-                    <Card.Meta>{formatDate(note.updated)}</Card.Meta>
+                    <Card.Meta><Icon name="calendar alternate outline"/> {formatDate(note.updated)}</Card.Meta>
                     <Card.Description>
                         <div dangerouslySetInnerHTML={{__html: note.html}}></div>
                     </Card.Description>

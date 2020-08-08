@@ -122,14 +122,14 @@ class GoalsEditor extends Component {
                             <label>Frequency</label>
                             <div style={freqContainerStyle}>
                                 "I want to focus on this <input style={freqInputStyle} type='number' placeholder='3' onChange={(event) => this.set('frequency', parseInt(event.target.value))}/> times per
-                                <Dropdown placeholder='week' selection options={options} style={perInputStyle}/>".
+                                <Dropdown placeholder='week' selection options={options} style={perInputStyle} onChange={(event) => this.set('period', event.target.children[0]?.innerText)}/>".
                             </div>
                         </Form.Field>
                     </Form>
                 </Modal.Content>
                 <Modal.Actions>
                     <Button style={this.cancelButtonStyle} onClick={() => this.set('open', false)}>Cancel</Button>
-                    <Button color="purple" style={this.saveButtonStyle} onClick={() => this.props.onDone(this.state)}>Save</Button>
+                    <Button color="purple" style={this.saveButtonStyle} onClick={() => {this.set('open', false);  this.props.onDone(this.state)}}>Save</Button>
                 </Modal.Actions>
             </Modal>
         )
