@@ -2,9 +2,8 @@ import React, {Component}from 'react';
 import {isMobile} from 'react-device-detect';
 import Note from './Note';
 import Request from '../../utils/Request';
-import Editor from './NotesEditor';
 import {Loader, Dimmer} from 'semantic-ui-react'
-import CreateNoteButton from './CreateNoteButton';
+import NotesEditor from './NotesEditor';
 
 class NotesArea extends Component {
 
@@ -18,10 +17,6 @@ class NotesArea extends Component {
         super(props);
         this.state = {
             data: [],
-            editor: {
-                display: false,
-                note: null
-            },
             loading: false
         }
         this.request = new Request(props.id_token, props.access_token);
@@ -40,16 +35,14 @@ class NotesArea extends Component {
         this.setState(Object.assign({}, this.state, {data: data}));
     }
 
-    setEditor(editor) {
-        this.setState(Object.assign({}, this.state, {editor: editor}));
-    }
-
     setLoading(bool) {
         this.setState(Object.assign({}, this.state, {loading: bool}));
     }
 
-    setLoadingAndEditor(loading, editor) {
-        this.setState(Object.assign({}, this.state, {loading: loading}, {editor: editor}));
+    set(key, value) {
+        let params = {};
+        params[key]= value;
+        this.setState(Object.assign({}, this.state, params));
     }
 
     getNoteRows(notes) {
@@ -57,7 +50,7 @@ class NotesArea extends Component {
             return (
                 notes.map((note, index) => {
                     return (<div key={index} style={this.notesRowStyle}>
-                        <Note key={note.uuid} note={note} setEditor={(editor) => this.setEditor(editor)} deleteNote={(note) => this.deleteNote(note)}/>
+                        <Note key={note.uuid} note={note} editNote={(editorState) => this.handleEdit(editorState)} deleteNote={(note) => this.deleteNote(note)}/>
                     </div>)
                 })
             )
@@ -66,7 +59,7 @@ class NotesArea extends Component {
             for(let i = 0; i < notes.length; i+=4) {
                 let notesElemList = [];
                 for(let j = i; j < i + 4 && j < notes.length; j++) {
-                    notesElemList.push(<Note key={notes[j].uuid} note ={notes[j]} setEditor={(editor) => this.setEditor(editor)} deleteNote={(note) => this.deleteNote(note)}/>);
+                    notesElemList.push(<Note key={notes[j].uuid} note ={notes[j]} editNote={(editorState) => this.handleEdit(editorState)} deleteNote={(note) => this.deleteNote(note)}/>);
                 }
                 notesRowList.push(<div key={i/4} style={this.notesRowStyle}>
                     {notesElemList}
@@ -76,70 +69,48 @@ class NotesArea extends Component {
         }
     }
 
-    createNote(html) {
-        this.request.post('notes', {html: html})
+    createNote(editorState) {
+        this.request.post('notes', {title: editorState.title, html: editorState.html})
         .then(res => {
             let note = res.data;
             let data = this.state.data;
             data.unshift(note)
-            this.setLoading(false);
+            this.set('loading', false);
         });
-        this.setLoadingAndEditor(true, {
-            display: false,
-            note: null
-        });
+        this.set('loading', true);
     }
 
-    updateNote(uuid, html) {
-        this.request.patch('notes', {uuid: uuid, html: html})
+    updateNote(editorState) {
+        this.request.patch('notes', {uuid: editorState.uuid, title: editorState.title, html: editorState.html})
         .then(res => {
-            console.log(res.data);
             let note = res.data;
             let data = this.state.data;
             let existingNote = data.find(x => x.uuid === note.uuid);
             Object.assign(existingNote, note);
-            this.setLoading(false);
+            this.set('loading', false)
         });
-        this.setLoadingAndEditor(true, {
-            display: false,
-            note: null
-        });
+        this.set('loading', true)
     }
 
     deleteNote(note) {
         this.request.del('notes', `uuid=${note.uuid}`)
         .then(res => {
-            this.setState({
-                data: this.state.data.filter(x => x.uuid !== note.uuid),
-                editor: {
-                    display: false,
-                    note: null
-                }
-            });
-            this.setLoading(false);
+            this.set('data', this.state.data.filter(x => x.uuid !== note.uuid));
+            this.set('loading', false);
         });
-        this.setLoading(true);
+        this.set('loading', true);
     }
 
-    handleEdit(html) {
-        if(html) {
-            let uuid = this.state.editor.note?.uuid
+    handleEdit(editorState) {
+        if(editorState) {
+            let uuid = editorState.uuid;
             if(uuid) {
                 // Update
-                this.updateNote(uuid, html);
+                this.updateNote(editorState);
             } else {
                 // Create
-                this.createNote(html);
+                this.createNote(editorState);
             }
-        } else {
-            // Just closing
-            this.setState({
-                data: this.state.data,
-                editor: {
-                    display: false,
-                    uuid: null
-                }
-            })
         }
     }
 
@@ -149,14 +120,13 @@ class NotesArea extends Component {
     }
 
     render() {
-        let conditionalJSX = this.state.editor.display ? (<Editor note ={this.state.editor.note} onDone={(note) => this.handleEdit(note)}/>) : (<CreateNoteButton setEditor={(editor) =>this.setEditor(editor)}/>);
         return (
             <div style={this.style}>
                 <Dimmer active={this.state.loading} style={{opacity: '0.3'}}>
                     <Loader active={this.state.loading} />
                 </Dimmer>
                 {this.getNoteRows(this.state.data)}
-                {conditionalJSX}
+                <NotesEditor onDone={(editorState) => this.handleEdit(editorState)}/>
             </div>
         )
     }

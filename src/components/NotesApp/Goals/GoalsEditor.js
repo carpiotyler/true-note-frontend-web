@@ -41,7 +41,14 @@ class GoalsEditor extends Component {
     }
 
     handleModalClose() {
-        this.set('open', false);
+        this.setState({
+            uuid: undefined,
+            open: false,
+            title: '',
+            description: '',
+            frequency: '',
+            period: ''
+        })
     }
 
     set(key, value) {
@@ -103,12 +110,20 @@ class GoalsEditor extends Component {
             fontSize: '20px'
         }
 
+        const addStyle = {
+            position: 'fixed',
+            bottom: '2%',
+            right: '2%',
+            fontSize: '16px',
+            width: '120px'
+        }
+
         return (
             <Modal 
                 open={this.state.open} 
                 onOpen={() => this.set('open', true)} 
                 onClose={() => this.handleModalClose()} 
-                trigger={<Button color='purple' style={this.props.buttonStyle}>Add Goal</Button>}
+                trigger={<Button color='purple' style={addStyle}>Add Goal</Button>}
                 style={modalStyle}
             >
                 <Modal.Header>{this.state.uuid ? 'Edit' : 'Add'} Goal</Modal.Header>
@@ -129,8 +144,8 @@ class GoalsEditor extends Component {
                     </Form>
                 </Modal.Content>
                 <Modal.Actions>
-                    <Button style={this.cancelButtonStyle} onClick={() => this.set('open', false)}>Cancel</Button>
-                    <Button color="purple" style={this.saveButtonStyle} onClick={() => {this.set('open', false);  this.props.onDone(this.state)}}>Save</Button>
+                    <Button style={this.cancelButtonStyle} onClick={() => this.handleModalClose()}>Cancel</Button>
+                    <Button color="purple" style={this.saveButtonStyle} onClick={() => {this.props.onDone(this.state); this.handleModalClose()}}>Save</Button>
                 </Modal.Actions>
             </Modal>
         )

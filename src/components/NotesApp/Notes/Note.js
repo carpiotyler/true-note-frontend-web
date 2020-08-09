@@ -2,6 +2,8 @@ import React from 'react';
 import {Card, Icon, Dropdown} from 'semantic-ui-react'
 import {isMobile} from 'react-device-detect';
 import moment from 'moment';
+import { render } from '@testing-library/react';
+import NotesEditor from './NotesEditor';
 
 function Note(props) {
     const note = props.note;
@@ -33,10 +35,7 @@ function Note(props) {
     }
 
     const handleEditButton = function() {
-        props.setEditor({
-            display: true,
-            note: note
-        });
+        return render(<NotesEditor open={true} note={note} onDone={(editorState) => props.editNote(editorState)}/>);
     }
 
     const handleDelete = function() {
@@ -48,7 +47,7 @@ function Note(props) {
             <Card style={cardstyle}>
                 <Card.Content>
                     <Card.Header>
-                        Placeholder
+                        {note.title}
                         <Dropdown icon="ellipsis vertical" style={cardMenuStyle}>
                             <Dropdown.Menu style={cardMenuPositionStyle}>
                                 <Dropdown.Item icon='edit outline' text='Edit' onClick={() => handleEditButton()}/>

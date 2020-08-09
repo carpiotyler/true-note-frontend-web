@@ -1,6 +1,6 @@
 import  React, {Component} from 'react';
 import ReactQuill from 'react-quill';
-import Button from '../../Button';
+import {Button, Modal, Form, Dropdown} from 'semantic-ui-react';
 
 import 'react-quill/dist/quill.snow.css'
 import '../../../css/quill-overrides.css'
@@ -19,62 +19,73 @@ class NotesEditor extends Component {
     }
 
     quillStyle = {
-        marginLeft: '20px',
-        height: '90%',
-        width: 'calc(100% - 40px)',
-        marginTop: '20px',
-        marginRight: '20px',
-        backgroundColor: 'antiquewhite'
+        height: '360px',
+        marginBottom: '40px'
     }
 
-    saveButtonStyle = {
-        backgroundColor: '#fe5f55',
-        margin: '5px',
-        zIndex: '999999'
-    }
-
-    cancelButtonStyle = {
-        backgroundColor: 'lightgrey',
-        margin: '5px',
-        color: '#141115',
-        zIndex: '999999'
-    }
-
-    editorAreaStyle = {
-        height: '90%'
-    }
-
-    saveAreaStyle = {
-        height: '5%',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'flex-end'
+    addStyle = {
+        position: 'fixed',
+        bottom: '2%',
+        right: '2%',
+        fontSize: '16px',
+        width: '120px'
     }
 
     constructor(props) {
         super(props)
+        let note = props.note;
         this.state = {
-            quillText: props.quillText
+            uuid: note?.uuid,
+            open: props.open || false,
+            title: note?.title || '',
+            html: note?.html || ''
         }
     }
 
-    handleChange(value) {
+    handleModalClose() {
         this.setState({
-            quillText: value
+            uuid: undefined,
+            open: false,
+            title: '',
+            html: ''
         })
     }
 
+    set(key, value) {
+        let params = {};
+        params[key] = value;
+        this.setState(Object.assign({}, this.state, params));
+    }
+
     render() {
+
+        const modalStyle = {
+            fontSize: '20px'
+        }
+
         return (
-            <div style={this.editorStyle}>
-                <div style={this.editorAreaStyle}>
-                    <ReactQuill style= {this.quillStyle} onChange={(value) => this.handleChange(value)} value={this.state.quillText || this.props.note?.html}/>
-                </div>
-                <div style={this.saveAreaStyle}>
-                    <Button style={this.cancelButtonStyle} text="Cancel" onClick={() => this.props.onDone()}/>
-                    <Button style={this.saveButtonStyle} text="Save" onClick={() => this.props.onDone(this.state.quillText)}/>
-                </div>
-            </div>
+            <Modal 
+                open={this.state.open} 
+                onOpen={() => this.set('open', true)} 
+                onClose={() => this.handleModalClose()} 
+                trigger={<Button color='purple' style={this.addStyle}>Add Note</Button>}
+                style={modalStyle}
+            >
+                <Modal.Header>{this.state.uuid ? 'Edit' : 'Add'} Note</Modal.Header>
+                <Modal.Content>
+                    <Form>
+                        <Form.Input label="Title" type="text" placeholder="Enter a title..." onChange={(event, title) => this.set('title', title.value)} defaultValue={this.state.title}/>
+                        <Form.Field>
+                            <label>Content</label>
+                            <ReactQuill style={this.quillStyle} onChange={(quillText) => this.set('html', quillText)} value={this.state.html}/>
+                        </Form.Field>
+                    </Form>
+                </Modal.Content>
+                <Modal.Actions>
+                    <Button onClick={() => this.handleModalClose()}>Cancel</Button>
+                    <Button color="purple" onClick={() => {this.props.onDone(this.state); this.handleModalClose()}}>Save</Button>
+                </Modal.Actions>
+            </Modal>
         )
     }
 }
