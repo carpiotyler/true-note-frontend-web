@@ -56,7 +56,7 @@ class GoalsArea extends Component {
             return (
                 goals.map((goal, index) => {
                     return (<div key={index} style={this.goalsRowStyle}>
-                        <Goal key={goal.uuid} goal={goal} editGoal={(goal) => this.updateGoal(goal)} deleteGoal={(goal) => this.deleteGoal(goal)}/>
+                        <Goal key={goal.uuid} goal={goal} editGoal={(editorState) => this.handleEdit(editorState)} deleteGoal={(goal) => this.deleteGoal(goal)}/>
                     </div>)
                 })
             )
@@ -65,7 +65,7 @@ class GoalsArea extends Component {
             for(let i = 0; i < goals.length; i+=4) {
                 let goalsElemList = [];
                 for(let j = i; j < i + 4 && j < goals.length; j++) {
-                    goalsElemList.push(<Goal key={goals[j].uuid} goal ={goals[j]} editGoal={(goal) => this.updateGoal(goal)} deleteGoal={(goal) => this.deleteGoal(goal)}/>);
+                    goalsElemList.push(<Goal key={goals[j].uuid} goal ={goals[j]} editGoal={(editorState) => this.handleEdit(editorState)} deleteGoal={(goal) => this.deleteGoal(goal)}/>);
                 }
                 goalsRowList.push(<div key={i/4} style={this.goalsRowStyle}>
                     {goalsElemList}
@@ -141,29 +141,12 @@ class GoalsArea extends Component {
                 // Create
                 this.createGoal(editorState);
             }
-        } else {
-            // Just closing
-            this.setState({
-                data: this.state.data,
-                editor: {
-                    display: false,
-                    uuid: null
-                }
-            })
         }
     }
 
     style = {
         overflow: 'auto',
         height: '95vh'
-    }
-
-    createNoteStyle = {
-        position: 'fixed',
-        bottom: '2%',
-        right: '2%',
-        fontSize: '16px',
-        width: '120px'
     }
 
     render() {
@@ -173,7 +156,7 @@ class GoalsArea extends Component {
                     <Loader active={this.state.loading} />
                 </Dimmer>
                 {this.getGoalRows(this.state.data)}
-                <GoalsEditor buttonStyle={this.createNoteStyle} onDone={(editorState) => this.handleEdit(editorState)}/>
+                <GoalsEditor onDone={(editorState) => this.handleEdit(editorState)}/>
             </div>
         )
     }
