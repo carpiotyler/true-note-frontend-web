@@ -6,7 +6,7 @@ import GoalsArea from './Goals/GoalsArea';
 import Request from '../utils/Request';
 import TrendsArea from './Trends/TrendsArea';
 import UserContext from '../utils/UserContext';
-import {BrowserRouter as Router, Route, Redirect} from 'react-router-dom';
+import {BrowserRouter as Router, Route, Redirect, Switch} from 'react-router-dom';
 
 export default class NotesApp extends Component {
     
@@ -61,37 +61,39 @@ export default class NotesApp extends Component {
                 <div style={this.style}>
                     <NotesSideNav />
                     <div style={this.rightPane}>
-                        <Route exact path="/app">
-                            <Redirect to="/app/notes" />
-                        </Route>
-                        <Route exact path="/app/notes">
-                            <NotesAppToolBar />
-                            <UserContext.Consumer>
-                                {
-                                    (state) => {
-                                        return (
-                                            <NotesArea id_token={state.context.id_token} access_token={state.context.access_token}/>
-                                        )
+                        <Switch>
+                            <Route exact path="/app">
+                                <Redirect to="/app/notes" />
+                            </Route>
+                            <Route exact path="/app/notes">
+                                <NotesAppToolBar />
+                                <UserContext.Consumer>
+                                    {
+                                        (state) => {
+                                            return (
+                                                <NotesArea id_token={state.context.id_token} access_token={state.context.access_token}/>
+                                            )
+                                        }
                                     }
-                                }
-                            </UserContext.Consumer>
-                        </Route>
-                        <Route exact path="/app/goals">
-                            <NotesAppToolBar />
-                            <UserContext.Consumer>
-                                {
-                                    (state) => {
-                                        return (
-                                            <GoalsArea id_token={state.context.id_token} access_token={state.context.access_token}/>
-                                        )
+                                </UserContext.Consumer>
+                            </Route>
+                            <Route exact path="/app/goals">
+                                <NotesAppToolBar />
+                                <UserContext.Consumer>
+                                    {
+                                        (state) => {
+                                            return (
+                                                <GoalsArea id_token={state.context.id_token} access_token={state.context.access_token}/>
+                                            )
+                                        }
                                     }
-                                }
-                            </UserContext.Consumer>
-                        </Route>
-                        <Route exact path="/app/trends">
-                            <NotesAppToolBar />
-                            <TrendsArea />
-                        </Route>
+                                </UserContext.Consumer>
+                            </Route>
+                            <Route exact path="/app/trends">
+                                <NotesAppToolBar />
+                                <TrendsArea />
+                            </Route>
+                        </Switch>
                     </div>
                 </div>
             </Router>
