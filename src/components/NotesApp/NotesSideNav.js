@@ -1,62 +1,57 @@
-import React, {Component} from 'react';
-import {Icon} from 'semantic-ui-react';
-import SideNav, {NavItem, NavIcon, NavText} from '@trendmicro/react-sidenav';
-import '@trendmicro/react-sidenav/dist/react-sidenav.css';
+import React, {useRef} from 'react';
+import {Sidebar, Button, Menu, Icon} from 'semantic-ui-react';
  
-export default class NotesSideNav extends Component {
-    componentStyle = {
-        width: '64px'
+export default function NotesSidenav() {
+    const navSelected = window.location.href.split('/')[window.location.href.split('/').length - 1];
+    const [visible, setVisible] = React.useState(false)
+
+    const navButtonStyle = {
+        backgroundColor: '#fcfcfc',
+        width: '60px'
     }
 
-    buttonStyle = {
-        color: '#fe5f55',
-        cursor: 'pointer'
+    const sideBarStyle = {
+        backgroundColor: '#a333c8',
+        transition: 'transform .25s ease'
     }
 
-    navStyle = {
-        backgroundColor: '#a333c8'
-    }
-
-    handleSelect = function(selected) {
-        if(!window.location.href.endsWith(selected)) {
-            window.location.href = `/app/${selected}`;
+    const handleNav = function(nav) {
+        if(nav === 'home') {
+            window.location.href = '/'
+        } else if(!window.location.href.endsWith(nav)) {
+            window.location.href = `/app/${nav}`;
         }
     }
-    
-    render() {
-        const navSelected = window.location.href.split('/')[window.location.href.split('/').length - 1];
-        return (
-            <div style= {this.componentStyle}>
-                <SideNav style={this.navStyle} onSelect={(selected) => this.handleSelect(selected)}>
-                    <SideNav.Toggle />
-                    <SideNav.Nav defaultSelected={navSelected}>
-                        <NavItem eventKey="notes">
-                            <NavIcon>
-                                <Icon name="sticky note outline" size="large"/>
-                            </NavIcon>
-                            <NavText>
-                                Notes
-                            </NavText>
-                        </NavItem>
-                        <NavItem eventKey="goals">
-                            <NavIcon>
-                                <Icon name="target" size="large"/>
-                            </NavIcon>
-                            <NavText>
-                                Goals
-                            </NavText>
-                        </NavItem>
-                        <NavItem eventKey="trends">
-                            <NavIcon>
-                                <Icon name="chart bar" size="large"/>
-                            </NavIcon>
-                            <NavText>
-                                Trends
-                            </NavText>
-                        </NavItem>
-                    </SideNav.Nav>
-                </SideNav>
-            </div>
-        )
-    }
+
+
+    return (
+        <div>
+            <Button style={navButtonStyle} onClick={() => setVisible(!visible)}>
+                <Icon name='bars' size='big' color='purple' />
+            </Button>
+            <Sidebar
+                as={Menu}
+                icon='labeled'
+                inverted
+                onHide={() => setVisible(false)}
+                vertical
+                visible={visible}
+                width='thin'
+                style={sideBarStyle}
+            >
+                <Menu.Item as='a' onClick={() => handleNav('notes')}>
+                    <Icon name='sticky note outline' />
+                    Notes
+                </Menu.Item>
+                <Menu.Item as='a' onClick={() => handleNav('goals')}>
+                    <Icon name='target' />
+                    Goals
+                </Menu.Item>
+                <Menu.Item as='a' onClick={() => handleNav('trends')}>
+                    <Icon name='chart bar'/>
+                    Trends
+                </Menu.Item>
+            </Sidebar>
+        </div>
+    )
 }

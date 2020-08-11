@@ -1,17 +1,24 @@
 import React, {Component} from 'react';
 import UserContext from '../utils/UserContext';
+import {isMobile} from 'react-device-detect';
 import {Button, Dropdown} from 'semantic-ui-react';
 
 export default class Profile extends Component {
     componentStyle = {
-        width: '30%',
+        width: isMobile ? 'calc(40% - 20px)' : 'calc(10% - 20px)',
+    }
+
+    buttonGroupStyle = {
         float: 'right',
-        marginRight: '2%'
+        marginRight: '10%'
     }
 
     buttonStyle = {
-        maxWidth: '100px',
-        width: '100%'
+        width: '90%',
+        paddingRight: 0,
+        paddingLeft: '10px',
+        overflowX: 'hidden',
+        textOverflow: 'ellipsis'
     }
 
     dropDownStyle = {
@@ -37,7 +44,7 @@ export default class Profile extends Component {
                             let text = state.context.user_data['cognito:username'];
                             let logout = {key: 'logout', icon: 'log out', text: 'Log Out'}
                             return (
-                                <Button.Group style={this.componentStyle} color='purple'>
+                                <Button.Group style={this.buttonGroupStyle} color='purple'>
                                     <Button style={this.buttonStyle}>{text}</Button>
                                     <Dropdown style= {this.dropDownStyle} className = 'button icon' floating options={[logout]} trigger={<></>} onChange={(selected) => this.handleChange(selected)}/>
                                 </Button.Group>

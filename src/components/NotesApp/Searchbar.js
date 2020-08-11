@@ -1,9 +1,10 @@
 import React from 'react';
+import {isMobile} from 'react-device-detect';
 import {Input} from 'semantic-ui-react';
 
 function SearchBar(props) {
     const componentStyle = {
-        width: '70%',
+        width: isMobile ? 'calc(60% - 40px)' : 'calc(90% - 40px)',
         height: '100%',
         display: 'flex',
         alignItems: 'center',
