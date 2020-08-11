@@ -7,17 +7,6 @@ import '../../../css/quill-overrides.css'
 
 class NotesEditor extends Component {
 
-    editorStyle = {
-        position: 'fixed',
-        left: '5%',
-        bottom: '5%',
-        borderRadius: '20px',
-        height: '90%',
-        width: '90%',
-        backgroundColor: 'antiquewhite',
-        zIndex: '9999'
-    }
-
     quillStyle = {
         height: '360px',
         marginBottom: '40px'

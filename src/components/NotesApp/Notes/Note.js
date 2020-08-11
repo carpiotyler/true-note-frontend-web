@@ -11,8 +11,8 @@ function Note(props) {
     const style = {
         backgroundColor: '#fcfcfc',
         height: '400px',
-        width: isMobile ? '95%' : '23%',
-        margin: isMobile? '2.5%': '1%'
+        width: isMobile ? '97%' : '23%',
+        margin: isMobile? '1.5': '1%'
     }
 
     const cardstyle = {
