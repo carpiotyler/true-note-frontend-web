@@ -12,7 +12,7 @@ function Note(props) {
         backgroundColor: '#fcfcfc',
         height: '400px',
         width: isMobile ? '97%' : '23%',
-        margin: isMobile? '1.5': '1%'
+        margin: isMobile? '1.5%': '1%'
     }
 
     const cardstyle = {
