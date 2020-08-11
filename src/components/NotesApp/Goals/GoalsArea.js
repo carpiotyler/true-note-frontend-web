@@ -133,10 +133,11 @@ class GoalsArea extends Component {
 
     handleEdit(editorState) {
         if(editorState) {
-            let uuid = this.state.editor.goal?.uuid
+            console.log(editorState)
+            let uuid = editorState.uuid
             if(uuid) {
                 // Update
-                this.updateGoal(uuid, editorState);
+                this.updateGoal(editorState);
             } else {
                 // Create
                 this.createGoal(editorState);
