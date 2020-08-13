@@ -10,7 +10,7 @@ export default class Profile extends Component {
 
     buttonGroupStyle = {
         float: 'right',
-        marginRight: '10%'
+        marginRight: '20px',
     }
 
     buttonStyle = {

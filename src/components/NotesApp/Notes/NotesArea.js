@@ -17,26 +17,19 @@ class NotesArea extends Component {
         super(props);
         this.state = {
             data: [],
+            goals: [],
             loading: false
         }
         this.request = new Request(props.id_token, props.access_token);
     }
 
-    componentDidMount() {
-        this.request.get('notes')
-        .then(res => {
-            this.setData(res.data.Items);
-            this.setLoading(false);
-        });
-        this.setLoading(true);
-    }
-
-    setData(data) {
-        this.setState(Object.assign({}, this.state, {data: data}));
-    }
-
-    setLoading(bool) {
-        this.setState(Object.assign({}, this.state, {loading: bool}));
+    async componentDidMount() {
+        let requests = [this.request.get('notes'), this.request.get('goals')];
+        this.set('loading', true);
+        let [res1, res2] = await Promise.all(requests);
+        this.set('data', res1.data.Items);
+        this.set('goals', res2.data.Items);
+        this.set('loading', false);
     }
 
     set(key, value) {
@@ -50,7 +43,7 @@ class NotesArea extends Component {
             return (
                 notes.map((note, index) => {
                     return (<div key={index} style={this.notesRowStyle}>
-                        <Note key={note.uuid} note={note} editNote={(editorState) => this.handleEdit(editorState)} deleteNote={(note) => this.deleteNote(note)}/>
+                        <Note key={note.uuid} note={note} goals={this.state.goals} editNote={(editorState) => this.handleEdit(editorState)} deleteNote={(note) => this.deleteNote(note)}/>
                     </div>)
                 })
             )
@@ -59,7 +52,7 @@ class NotesArea extends Component {
             for(let i = 0; i < notes.length; i+=4) {
                 let notesElemList = [];
                 for(let j = i; j < i + 4 && j < notes.length; j++) {
-                    notesElemList.push(<Note key={notes[j].uuid} note ={notes[j]} editNote={(editorState) => this.handleEdit(editorState)} deleteNote={(note) => this.deleteNote(note)}/>);
+                    notesElemList.push(<Note key={notes[j].uuid} note ={notes[j]} goals={this.state.goals} editNote={(editorState) => this.handleEdit(editorState)} deleteNote={(note) => this.deleteNote(note)}/>);
                 }
                 notesRowList.push(<div key={i/4} style={this.notesRowStyle}>
                     {notesElemList}
@@ -70,7 +63,7 @@ class NotesArea extends Component {
     }
 
     createNote(editorState) {
-        this.request.post('notes', {title: editorState.title, html: editorState.html})
+        this.request.post('notes', {title: editorState.title, html: editorState.html, goals: editorState.goals})
         .then(res => {
             let note = res.data;
             let data = this.state.data;
@@ -81,7 +74,7 @@ class NotesArea extends Component {
     }
 
     updateNote(editorState) {
-        this.request.patch('notes', {uuid: editorState.uuid, title: editorState.title, html: editorState.html})
+        this.request.patch('notes', {uuid: editorState.uuid, title: editorState.title, html: editorState.html, goals: editorState.goals})
         .then(res => {
             let note = res.data;
             let data = this.state.data;
@@ -126,7 +119,7 @@ class NotesArea extends Component {
                     <Loader active={this.state.loading} />
                 </Dimmer>
                 {this.getNoteRows(this.state.data)}
-                <NotesEditor onDone={(editorState) => this.handleEdit(editorState)}/>
+                {this.state.goals.length ? <NotesEditor goals={this.state.goals} onDone={(editorState) => this.handleEdit(editorState)}/>: <div />}
             </div>
         )
     }
