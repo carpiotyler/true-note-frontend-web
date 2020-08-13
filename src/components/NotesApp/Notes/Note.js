@@ -1,8 +1,8 @@
 import React from 'react';
-import {Card, Icon, Dropdown} from 'semantic-ui-react'
+import {Card, Icon, Dropdown, Label} from 'semantic-ui-react'
 import {isMobile} from 'react-device-detect';
 import moment from 'moment';
-import { render } from '@testing-library/react';
+import { render, findAllByAltText } from '@testing-library/react';
 import NotesEditor from './NotesEditor';
 
 function Note(props) {
@@ -35,11 +35,15 @@ function Note(props) {
     }
 
     const handleEditButton = function() {
-        return render(<NotesEditor open={true} note={note} onDone={(editorState) => props.editNote(editorState)}/>);
+        return render(<NotesEditor open={true} note={note} goals={props.goals} onDone={(editorState) => props.editNote(editorState)}/>);
     }
 
     const handleDelete = function() {
         props.deleteNote(note);
+    }
+
+    const findGoal = function(uuid) {
+        return props.goals.find(x=>x.uuid === uuid);
     }
 
     return (
@@ -57,6 +61,13 @@ function Note(props) {
                     </Card.Header>
                     <Card.Meta><Icon name="calendar alternate outline"/> {formatDate(note.updated)}</Card.Meta>
                     <Card.Description>
+                        <div>
+                            {
+                                note.goals?.map(goal => {
+                                    return (<Label as='a'>{findGoal(goal)?.title}</Label>)
+                                })
+                            }
+                        </div>
                         <div dangerouslySetInnerHTML={{__html: note.html}}></div>
                     </Card.Description>
                 </Card.Content>

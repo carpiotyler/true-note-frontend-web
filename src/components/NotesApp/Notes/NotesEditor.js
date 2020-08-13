@@ -23,12 +23,19 @@ class NotesEditor extends Component {
     constructor(props) {
         super(props)
         let note = props.note;
+        let allGoals = props.goals;
         this.state = {
             uuid: note?.uuid,
             open: props.open || false,
             title: note?.title || '',
-            html: note?.html || ''
+            html: note?.html || '',
+            goals: note?.goals || []
         }
+        this.goalOptions = allGoals.map(goal => ({
+            key: goal.uuid,
+            text: goal.title,
+            value: goal.uuid
+        }));
     }
 
     handleModalClose() {
@@ -36,7 +43,8 @@ class NotesEditor extends Component {
             uuid: undefined,
             open: false,
             title: '',
-            html: ''
+            html: '',
+            goals: []
         })
     }
 
@@ -64,6 +72,19 @@ class NotesEditor extends Component {
                 <Modal.Content>
                     <Form>
                         <Form.Input label="Title" type="text" placeholder="Enter a title..." onChange={(event, title) => this.set('title', title.value)} defaultValue={this.state.title}/>
+                        <Form.Field>
+                            <label>Goal(s)</label>
+                            <Dropdown
+                            placeholder='Select goal(s)'
+                            fluid
+                            multiple
+                            search
+                            selection
+                            options={this.goalOptions}
+                            onChange={(event, selected) => this.set('goals', selected.value)}
+                            value={this.state.goals}
+                            />
+                        </Form.Field>
                         <Form.Field>
                             <label>Content</label>
                             <ReactQuill style={this.quillStyle} onChange={(quillText) => this.set('html', quillText)} value={this.state.html}/>

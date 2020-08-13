@@ -60,6 +60,11 @@ class GoalsEditor extends Component {
     render() {
         const options = [
             {
+                key:'day',
+                text:'day',
+                value:'day'
+            },
+            {
                 key:'week',
                 text:'week',
                 value: 'week'
