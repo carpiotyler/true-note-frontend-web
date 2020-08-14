@@ -39,6 +39,10 @@ export default function NotesSidenav() {
                 width='thin'
                 style={sideBarStyle}
             >
+                <Menu.Item as='a' onClick={() => handleNav('todos')}>
+                    <Icon name='check circle outline' />
+                    Todos
+                </Menu.Item>
                 <Menu.Item as='a' onClick={() => handleNav('notes')}>
                     <Icon name='sticky note outline' />
                     Notes
