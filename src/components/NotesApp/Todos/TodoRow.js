@@ -29,6 +29,10 @@ export default class TodoRow extends Component {
         alignItems: 'center'
     }
 
+    dropdownStyle = {
+        height: '40px'
+    }
+
     render() {
         if(this.state.new) {
             return (
@@ -47,9 +51,9 @@ export default class TodoRow extends Component {
         } else {
             return (
                 <div style={this.rowStyle}>
-                    <Checkbox onChange={(event, bool) => this.props.handleTodoCheck(this.state.todo, bool)}/>
-                    <Input ref={(input) => { this.nameInput = input; }} placeholder="Todo Item" value={this.state.todo.text} onChange={(event, selection) => this.set({todo: Object.assign(this.state.todo, {text: selection.text})})}/>
-                    <Dropdown selection options={this.options} selectedLabel={this.state.todo?.goal} onChange={(event, selection) => this.state.todo.goal=selection.value} />
+                    <Checkbox checked={this.props.done} style={this.checkboxStyle} onChange={(event, checkbox) => this.props.handleTodoRowCheck(this.state.todo, checkbox.checked)}/>
+                    <Input style={this.inputStyle} ref={(input) => { this.nameInput = input; }} placeholder="Todo Item" value={this.state.todo.text} onChange={(event, selection) => this.set({todo: Object.assign(this.state.todo, {text: selection.value})})}/>
+                    <Dropdown style={this.dropdownStyle} selection options={this.options} defaultValue={this.state.todo?.goal} onChange={(event, selection) => this.state.todo.goal=selection.value} />
                 </div>
             )
         }

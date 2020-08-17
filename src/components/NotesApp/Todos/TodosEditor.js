@@ -35,9 +35,17 @@ class TodosEditor extends Component {
     }
 
     handleTodoRowCheck(todo, bool) {
+        console.log(bool);
         if(bool) {
             let newTodos = this.state.todos.filter(val => val.uuid !== todo.uuid);
-            let newDone =  this.state.done.concat(todo);
+            let newDone =  [todo].concat(this.state.done);
+            this.set({
+                todos: newTodos,
+                done: newDone
+            })
+        } else {
+            let newDone = this.state.done.filter(val => val.uuid !== todo.uuid);
+            let newTodos = this.state.todos.concat(todo);
             this.set({
                 todos: newTodos,
                 done: newDone
@@ -47,7 +55,7 @@ class TodosEditor extends Component {
     
     addTodo(todo) {
         this.focusedUuid = todo.uuid;
-        this.set('todos', this.state.todos.concat(todo));
+        this.set({'todos': this.state.todos.concat(todo)});
     }
 
     getTodoRows() {
@@ -64,12 +72,26 @@ class TodosEditor extends Component {
     }
 
     getDoneRows() {
-
+        if(this.state.done.length) {
+            return (
+                <Modal.Content>
+                    {
+                        this.state.done.map(done => {
+                            return (
+                                <TodoRow done={true} key={done.uuid} focusedUuid={this.focusedUuid} todo={done} handleTodoRowCheck={(done, bool) => this.handleTodoRowCheck(done, bool)} options={this.options} />
+                            )
+                        })
+                    }
+                </Modal.Content>
+            )
+        } else {
+            return (
+                <div />
+            )
+        }
     }
 
-    set(key, value) {
-        let params = {};
-        params[key] = value;
+    set(params) {
         this.setState(Object.assign({}, this.state, params));
     }
 
@@ -81,7 +103,7 @@ class TodosEditor extends Component {
         return (
             <Modal 
                 open={this.state.open} 
-                onOpen={() => this.set('open', true)} 
+                onOpen={() => this.set({'open': true})} 
                 onClose={() => this.handleModalClose()} 
                 style={modalStyle}
             >
