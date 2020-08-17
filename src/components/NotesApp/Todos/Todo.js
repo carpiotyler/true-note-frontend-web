@@ -40,7 +40,7 @@ function Todo(props) {
     }
 
     const handleEditButton = function() {
-        return render(<TodosEditor open={true}/>)
+        return render(<TodosEditor open={true} onDone={(editorState) => props.onDone(editorState)} todo={todo} date={props.date} goals={props.goals}/>)
     }
 
     return (

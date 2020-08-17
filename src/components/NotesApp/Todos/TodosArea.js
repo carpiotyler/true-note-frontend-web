@@ -13,20 +13,22 @@ class TodosArea extends Component {
         this.state = {
             date: new Date(),
             data: [],
+            goals: [],
             loading: false
         }
         this.request = new Request(props.id_token, props.access_token);
     }
 
-    componentDidMount() {
-        this.request.get('daily-todos')
-        .then(res => {
-            this.set({
-                data: res.data.Items,
-                loading: false
-            })
-        });
+    async componentDidMount() {
+        let promise1 = this.request.get('daily-todos')
+        let promise2 = this.request.get('goals');
         this.set({loading: true});
+        let [res1, res2] = await Promise.all([promise1, promise2])
+        this.set({
+            loading: false,
+            data: res1.data.Items,
+            goals: res2.data.Items
+        })
     }
 
     set(params) {
@@ -41,6 +43,10 @@ class TodosArea extends Component {
         this.state.data.find(todo => {
             return dayMoment?.isSame(moment(todo.date), 'day');
         })
+    }
+
+    putTodo(editorState) {
+        console.log(editorState);
     }
 
     getTodosGrid() {
@@ -63,7 +69,7 @@ class TodosArea extends Component {
                     <Todo todo={this.findTodo()} day={yesterday} date={yesterday}/>
                 </Grid.Column>
                 <Grid.Column style={primary}>
-                    <Todo todo={this.findTodo(today)} date={today} onDone={(editorState) => this.putTodo(editorState)}/>
+                    <Todo todo={this.findTodo(today)} date={today} onDone={(editorState) => this.putTodo(editorState)} goals={this.state.goals}/>
                 </Grid.Column>
                 <Grid.Column style={faded}>
                     <Todo todo={this.findTodo(tomorrow)} date={tomorrow}/>

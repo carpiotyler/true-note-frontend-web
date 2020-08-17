@@ -1,11 +1,20 @@
 import  React, {Component} from 'react';
-import {Button, Modal, Form, Dropdown} from 'semantic-ui-react';
+import TodoRow from './TodoRow'
+import {Button, Modal} from 'semantic-ui-react';
 
 class TodosEditor extends Component {
 
     constructor(props) {
         super(props)
         let todo = props.todo;
+        this.focusedUuid = null;
+        this.options = props.goals ? props.goals.map(goal => {
+            return {
+                key: goal.uuid,
+                text: goal.title,
+                value: goal.uuid
+            }
+        }) : [];
         this.state = {
             uuid: todo?.uuid,
             open: props.open || false,
@@ -19,10 +28,43 @@ class TodosEditor extends Component {
         this.setState({
             uuid: undefined,
             open: false,
-            date: undefined,
+            date: this.state.date,
             todos: [],
             done: []
         })
+    }
+
+    handleTodoRowCheck(todo, bool) {
+        if(bool) {
+            let newTodos = this.state.todos.filter(val => val.uuid !== todo.uuid);
+            let newDone =  this.state.done.concat(todo);
+            this.set({
+                todos: newTodos,
+                done: newDone
+            })
+        }
+    }
+    
+    addTodo(todo) {
+        this.focusedUuid = todo.uuid;
+        this.set('todos', this.state.todos.concat(todo));
+    }
+
+    getTodoRows() {
+        return (
+            <div>
+                {this.state.todos.map(todo => {
+                    return (
+                        <TodoRow key={todo.uuid} focusedUuid={this.focusedUuid} todo={todo} handleTodoRowCheck={(todo, bool) => this.handleTodoRowCheck(todo, bool)} options={this.options} addTodo={(todo)=> this.addTodo(todo)}/>
+                    )
+                })}
+                <TodoRow new={true} handleTodoRowCheck={(todo, bool) => this.handleTodoRowCheck(todo, bool)} options={this.options} addTodo={(todo)=> this.addTodo(todo)}/>
+            </div>
+        )
+    }
+
+    getDoneRows() {
+
     }
 
     set(key, value) {
@@ -43,10 +85,11 @@ class TodosEditor extends Component {
                 onClose={() => this.handleModalClose()} 
                 style={modalStyle}
             >
-                <Modal.Header></Modal.Header>
+                <Modal.Header>
+                    Todo: {this.state.date.format('MMMM Do, YYYY')}
+                </Modal.Header>
                 <Modal.Content>
                     {this.getTodoRows()}
-                    { }
                 </Modal.Content>
                 {this.getDoneRows()}
                 <Modal.Actions>
