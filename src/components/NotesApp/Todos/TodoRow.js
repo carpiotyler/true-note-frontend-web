@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Checkbox, Input, Dropdown, Icon} from 'semantic-ui-react';
+import {Checkbox, Input, Dropdown, Icon, Label} from 'semantic-ui-react';
 const uuid = require('uuid');
 
 export default class TodoRow extends Component {
@@ -45,7 +45,12 @@ export default class TodoRow extends Component {
         }
     
         let dropdownStyle = {
-            width: '140px'
+            width: '140px',
+            marginRight: '6px'
+        }
+
+        let deleteButtonStyle = {
+            cursor: 'pointer'
         }
 
         if(this.state.new) {
@@ -68,6 +73,9 @@ export default class TodoRow extends Component {
                     <Checkbox checked={this.props.done} style={checkboxStyle} onChange={(event, checkbox) => this.props.handleTodoRowCheck(this.state.todo, checkbox.checked)}/>
                     <Input style={inputStyle} ref={(input) => { this.nameInput = input; }} placeholder="Todo Item" value={this.state.todo.text} onChange={(event, selection) => this.set({todo: Object.assign(this.state.todo, {text: selection.value})})}/>
                     <Dropdown style={dropdownStyle} selection options={this.options} defaultValue={this.state.todo?.goal || 'None'} onChange={(event, selection) => this.state.todo.goal=selection.value} />
+                    <div onClick={() => {this.props.handleTodoRowRemove(this.state.todo)}} style={deleteButtonStyle}>
+                        <Icon name='x' color='red'/>
+                    </div>
                 </div>
             )
         }

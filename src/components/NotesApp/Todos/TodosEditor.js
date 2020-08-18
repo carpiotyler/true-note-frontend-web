@@ -55,6 +55,13 @@ class TodosEditor extends Component {
             })
         }
     }
+
+    handleTodoRowRemove(todo) {
+        this.set({
+            todos: this.state.todos.filter(val => val.uuid != todo?.uuid),
+            done: this.state.done.filter(val => val.uuid != todo?.uuid)
+        })
+    }
     
     addTodo(todo) {
         this.focusedUuid = todo.uuid;
@@ -66,10 +73,10 @@ class TodosEditor extends Component {
             <div>
                 {this.state.todos.map(todo => {
                     return (
-                        <TodoRow key={todo.uuid} focusedUuid={this.focusedUuid} todo={todo} handleTodoRowCheck={(todo, bool) => this.handleTodoRowCheck(todo, bool)} options={this.options} addTodo={(todo)=> this.addTodo(todo)}/>
+                        <TodoRow key={todo.uuid} focusedUuid={this.focusedUuid} todo={todo} handleTodoRowCheck={(todo, bool) => this.handleTodoRowCheck(todo, bool)} handleTodoRowRemove={(todo) => this.handleTodoRowRemove(todo)} options={this.options} addTodo={(todo)=> this.addTodo(todo)}/>
                     )
                 })}
-                <TodoRow new={true} handleTodoRowCheck={(todo, bool) => this.handleTodoRowCheck(todo, bool)} options={this.options} addTodo={(todo)=> this.addTodo(todo)}/>
+                <TodoRow new={true} handleTodoRowCheck={(todo, bool) => this.handleTodoRowCheck(todo, bool)} handleTodoRowRemove={(todo) => this.handleTodoRowRemove(todo)} options={this.options} addTodo={(todo)=> this.addTodo(todo)}/>
             </div>
         )
     }
@@ -82,7 +89,7 @@ class TodosEditor extends Component {
                     {
                         this.state.done.map(done => {
                             return (
-                                <TodoRow done={true} key={done.uuid} focusedUuid={this.focusedUuid} todo={done} handleTodoRowCheck={(done, bool) => this.handleTodoRowCheck(done, bool)} options={this.options} />
+                                <TodoRow done={true} key={done.uuid} focusedUuid={this.focusedUuid} todo={done} handleTodoRowCheck={(done, bool) => this.handleTodoRowCheck(done, bool)} handleTodoRowRemove={(todo) => this.handleTodoRowRemove(todo)} options={this.options} />
                             )
                         })
                     }
