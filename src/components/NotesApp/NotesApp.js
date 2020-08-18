@@ -4,6 +4,7 @@ import NotesArea from './Notes/NotesArea';
 import GoalsArea from './Goals/GoalsArea';
 import Request from '../utils/Request';
 import TrendsArea from './Trends/TrendsArea';
+import TodosArea from './Todos/TodosArea';
 import UserContext from '../utils/UserContext';
 import {BrowserRouter as Router, Route, Redirect, Switch} from 'react-router-dom';
 
@@ -55,6 +56,18 @@ export default class NotesApp extends Component {
                     <Switch>
                         <Route exact path="/app">
                             <Redirect to="/app/notes" />
+                        </Route>
+                        <Route exact path="/app/todos">
+                            <NotesAppToolBar />
+                            <UserContext.Consumer>
+                                {
+                                    (state) => {
+                                        return (
+                                            <TodosArea id_token={state.context.id_token} access_token={state.context.access_token}/>
+                                        )
+                                    }
+                                }
+                            </UserContext.Consumer>
                         </Route>
                         <Route exact path="/app/notes">
                             <NotesAppToolBar />
