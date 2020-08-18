@@ -71,7 +71,7 @@ function Todo(props) {
                             todo?.todos.map(td => {
                                 let matchingGoal = props.goals?.find(val => val.uuid === td.goal);
                                return (
-                                   <div style={rowStyle}>
+                                   <div key={td.uuid} style={rowStyle}>
                                        <Checkbox checked={false} style={checkboxStyle}/>
                                        {td.text}
                                        {matchingGoal ? <Label style={labelStyle} size='tiny'>{matchingGoal?.title}</Label> : <div />}
@@ -84,7 +84,7 @@ function Todo(props) {
                             todo?.done.map(td => {
                                 let matchingGoal = props.goals?.find(val => val.uuid === td.goal);
                                return (
-                                   <div style={rowStyle}>
+                                   <div key={td.uuid} style={rowStyle}>
                                        <Checkbox checked={true} style={checkboxStyle}/>
                                        <div style={{textDecoration: 'line-through'}}>
                                             {td.text}

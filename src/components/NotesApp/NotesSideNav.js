@@ -1,8 +1,7 @@
-import React, {useRef} from 'react';
+import React from 'react';
 import {Sidebar, Button, Menu, Icon} from 'semantic-ui-react';
  
 export default function NotesSidenav() {
-    const navSelected = window.location.href.split('/')[window.location.href.split('/').length - 1];
     const [visible, setVisible] = React.useState(false)
 
     const navButtonStyle = {
@@ -19,7 +18,7 @@ export default function NotesSidenav() {
         if(nav === 'home') {
             window.location.href = '/'
         } else if(!window.location.href.endsWith(nav)) {
-            window.location.href = `/app/${nav}`;
+            window.location.href = `/${nav}`;
         }
     }
 

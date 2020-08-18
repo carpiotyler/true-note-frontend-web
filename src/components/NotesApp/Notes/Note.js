@@ -2,7 +2,7 @@ import React from 'react';
 import {Card, Icon, Dropdown, Label} from 'semantic-ui-react'
 import {isMobile} from 'react-device-detect';
 import moment from 'moment';
-import { render, findAllByAltText } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import NotesEditor from './NotesEditor';
 
 function Note(props) {
@@ -29,6 +29,11 @@ function Note(props) {
         left: 'auto'
     }
 
+    const cardDescriptionStyle = {
+        height: '85%',
+        overflowY: 'hidden'
+    }
+
     const formatDate = function(dateString) {
         let date = new Date(dateString);
         return `Updated ${moment(date).format('M/D h:mma')}`
@@ -49,7 +54,7 @@ function Note(props) {
     return (
         <div style={style}>
             <Card style={cardstyle}>
-                <Card.Content>
+                <Card.Content style={{height: '100%'}}>
                     <Card.Header>
                         {note.title}
                         <Dropdown icon="ellipsis vertical" style={cardMenuStyle}>
@@ -60,11 +65,11 @@ function Note(props) {
                         </Dropdown>
                     </Card.Header>
                     <Card.Meta><Icon name="calendar alternate outline"/> {formatDate(note.updated)}</Card.Meta>
-                    <Card.Description>
+                    <Card.Description style={cardDescriptionStyle}>
                         <div>
                             {
                                 note.goals?.map(goal => {
-                                    return (<Label as='a'>{findGoal(goal)?.title}</Label>)
+                                    return (<Label key={goal} as='a'>{findGoal(goal)?.title}</Label>)
                                 })
                             }
                         </div>

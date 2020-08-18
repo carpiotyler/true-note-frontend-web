@@ -58,8 +58,8 @@ class TodosEditor extends Component {
 
     handleTodoRowRemove(todo) {
         this.set({
-            todos: this.state.todos.filter(val => val.uuid != todo?.uuid),
-            done: this.state.done.filter(val => val.uuid != todo?.uuid)
+            todos: this.state.todos.filter(val => val.uuid !== todo?.uuid),
+            done: this.state.done.filter(val => val.uuid !== todo?.uuid)
         })
     }
     
