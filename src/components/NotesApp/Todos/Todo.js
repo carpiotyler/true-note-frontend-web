@@ -1,6 +1,5 @@
 import React from 'react';
 import {Card, Button, Icon, Checkbox, Label, Header} from 'semantic-ui-react'
-import {isMobile} from 'react-device-detect';
 import moment from 'moment';
 import TodosEditor from './TodosEditor';
 import { render } from '@testing-library/react';
@@ -35,7 +34,7 @@ function Todo(props) {
         } else if(moment().add(1, 'day').isSame(day, 'day')) {
             return 'Tomorrow'
         } else {
-            return day.format('MM-DD-YYYY');
+            return day.format('dddd - MMMM Do');
         }
     }
 

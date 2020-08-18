@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {isMobile} from 'react-device-detect';
 import {Checkbox, Input, Dropdown, Icon, Label} from 'semantic-ui-react';
 const uuid = require('uuid');
 
@@ -29,23 +30,29 @@ export default class TodoRow extends Component {
         display: 'flex',
         alignItems: 'center',
         marginTop: '4px',
-        marginBottom: '4px'
+        marginBottom: '4px',
+        fontSize: isMobile ? '12px' : undefined
     }
 
     render() {
         let checkboxStyle = {
-            marginRight: '7px',
-            marginLeft: '3px'
+            marginRight: isMobile ? '12px' : '7px',
+            marginLeft: isMobile ? '1px' : '3px'
+        }
+
+        let iconStyle = {
+            marginRight: isMobile ? '8px' : undefined
         }
     
         let inputStyle = {
             textDecoration: this.state.done ? 'line-through': 'none',
             marginRight: '12px',
-            width: '400px'
+            width: isMobile ? '40%' : '400px'
         }
     
         let dropdownStyle = {
-            width: '140px',
+            width: isMobile ? '40%' : '140px',
+            maxWidth: isMobile ? '40%' : '140px',
             marginRight: '6px'
         }
 
@@ -56,7 +63,7 @@ export default class TodoRow extends Component {
         if(this.state.new) {
             return (
                 <div style={this.rowStyle}>
-                    <Icon name='plus' />
+                    <Icon name='plus' size={isMobile ? 'large' : undefined} style={iconStyle}/>
                     <Input style= {inputStyle} placeholder='List Item' value="" onChange={(event, selection) => {
                         this.props.addTodo({
                             uuid: uuid.v1(),
