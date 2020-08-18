@@ -9,8 +9,8 @@ function App() {
   return (
     <Router>
       <Switch>
-        <Route path="/app" component={NotesApp}></Route>
         <Route path="/" exact component={Home}/>
+        <Route path="/" component={NotesApp}></Route>
       </Switch>
     </Router>
   );
