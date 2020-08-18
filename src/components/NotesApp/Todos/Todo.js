@@ -70,11 +70,12 @@ function Todo(props) {
                         <Header style={{marginTop: '16px'}}size='tiny'>Todo:</Header>
                         {
                             todo?.todos.map(td => {
+                                let matchingGoal = props.goals?.find(val => val.uuid === td.goal);
                                return (
                                    <div style={rowStyle}>
                                        <Checkbox checked={false} style={checkboxStyle}/>
                                        {td.text}
-                                       <Label style={labelStyle} size='tiny'>{props.goals?.find(val => val.uuid === td.goal)?.title}</Label>
+                                       {matchingGoal ? <Label style={labelStyle} size='tiny'>{matchingGoal?.title}</Label> : <div />}
                                    </div>
                                ) 
                             })
@@ -82,11 +83,12 @@ function Todo(props) {
                         <Header size='tiny'>Done:</Header>
                         {
                             todo?.done.map(td => {
+                                let matchingGoal = props.goals?.find(val => val.uuid === td.goal);
                                return (
                                    <div style={rowStyle}>
                                        <Checkbox checked={true} style={checkboxStyle}/>
                                        {td.text}
-                                       {td.goal ? <Label style={labelStyle} size='tiny'>{props.goals?.find(val => val.uuid === td.goal)?.title}</Label> : <div />}
+                                       {matchingGoal ? <Label style={labelStyle} size='tiny'>{matchingGoal?.title}</Label> : <div />}
                                    </div>
                                ) 
                             })

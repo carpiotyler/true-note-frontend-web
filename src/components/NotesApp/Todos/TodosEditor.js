@@ -8,13 +8,17 @@ class TodosEditor extends Component {
         super(props)
         let todo = props.todo;
         this.focusedUuid = null;
-        this.options = props.goals ? props.goals.map(goal => {
+        this.options = [{
+            key: null,
+            text: 'None',
+            value: 'None'
+        }].concat(props.goals ? props.goals.map(goal => {
             return {
                 key: goal.uuid,
                 text: goal.title,
                 value: goal.uuid
             }
-        }) : [];
+        }) : []);
         this.state = {
             uuid: todo?.uuid,
             open: props.open || false,
