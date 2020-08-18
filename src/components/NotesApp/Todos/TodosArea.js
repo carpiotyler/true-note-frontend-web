@@ -2,8 +2,7 @@ import React, {Component}from 'react';
 import {isMobile} from 'react-device-detect';
 import Todo from './Todo';
 import Request from '../../utils/Request';
-import {Loader, Dimmer, Grid} from 'semantic-ui-react'
-import TodosEditor from './TodosEditor';
+import {Loader, Dimmer, Grid, Button} from 'semantic-ui-react'
 const moment = require('moment');
 
 class TodosArea extends Component {
@@ -52,8 +51,12 @@ class TodosArea extends Component {
             goal: editorState.goal
         }
         await this.request.put('daily-todos', newTodo);
-        let index = this.state.data.findIndex(val => val.uuid === existingTodo.uuid);
-        this.state.data[index] = newTodo;
+        if(existingTodo) {
+            let index = this.state.data.findIndex(val => val.uuid === existingTodo.uuid);
+            this.state.data[index] = newTodo;
+        } else {
+            this.state.data.push(newTodo);
+        }
         this.set({loading: false});
     }
 
@@ -61,6 +64,18 @@ class TodosArea extends Component {
         let today = moment(this.state.date);
         let yesterday = moment(today).subtract(1, 'day');
         let tomorrow = moment(today).add(1, 'day');
+
+        const containerStyle = {
+            height: '5%'
+        }
+
+        const navStyle = {
+            height: '50%',
+            width: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between'
+        }
 
         const faded = {
             opacity: '60%',
@@ -71,21 +86,39 @@ class TodosArea extends Component {
             height: '100%'
         }
 
+        const leftButton = {
+            marginLeft: '10px'
+        }
+
+        const rightButton = {
+            marginRight: '10px'
+        }
+
         return (
             <div style={{height: '100%'}}>
-                <div style={{height: '5%'}}>
-
+                <div style={containerStyle}>
+                    <div style={{height: '50%'}}>
+                        
+                    </div>
+                    <div style={navStyle}>
+                        <Button style={leftButton} icon='arrow left' onClick={() => this.set({date: yesterday.toDate().toUTCString()})}></Button>
+                        <Button style={rightButton} icon='arrow right' onClick={() => this.set({date: tomorrow.toDate().toUTCString()})}></Button>
+                    </div>
                 </div>
-                <Grid columns={3} padded style={{height: '95%'}}>
-                    <Grid.Column style={faded}>
-                        <Todo todo={this.findTodo(yesterday)} day={yesterday} date={yesterday}/>
-                    </Grid.Column>
+                <Grid columns={isMobile ? 1 : 3} padded style={{height: '95%'}}>
+                    { !isMobile ? 
+                        <Grid.Column style={faded}>
+                            <Todo todo={this.findTodo(yesterday)} day={yesterday} date={yesterday}/>
+                        </Grid.Column> : undefined
+                    }
                     <Grid.Column style={primary}>
                         <Todo todo={this.findTodo(today)} date={today} onDone={(editorState) => this.putTodo(editorState)} goals={this.state.goals}/>
                     </Grid.Column>
-                    <Grid.Column style={faded}>
-                        <Todo todo={this.findTodo(tomorrow)} date={tomorrow}/>
-                    </Grid.Column>
+                    { !isMobile ? 
+                        <Grid.Column style={faded}>
+                            <Todo todo={this.findTodo(tomorrow)} date={tomorrow}/>
+                        </Grid.Column> : undefined
+                    }
                 </Grid>
             </div>
         )
