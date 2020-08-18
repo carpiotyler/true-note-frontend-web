@@ -86,7 +86,9 @@ function Todo(props) {
                                return (
                                    <div style={rowStyle}>
                                        <Checkbox checked={true} style={checkboxStyle}/>
-                                       {td.text}
+                                       <div style={{textDecoration: 'line-through'}}>
+                                            {td.text}
+                                        </div>
                                        {matchingGoal ? <Label style={labelStyle} size='tiny'>{matchingGoal?.title}</Label> : <div />}
                                    </div>
                                ) 
