@@ -29,6 +29,15 @@ function Goal(props) {
         left: 'auto'
     }
 
+    const cardContentStyle = {
+        height: '70%'
+    }
+
+    const cardDescriptionStyle = {
+        height: '75%',
+        overflowY: 'hidden'
+    }
+
     const formatDate = function(dateString) {
         let date = new Date(dateString);
         return `Updated ${moment(date).format('M/D h:mma')}`
@@ -45,7 +54,7 @@ function Goal(props) {
     return (
         <div style={style}>
             <Card style={cardstyle}>
-                <Card.Content>
+                <Card.Content style={cardContentStyle}>
                     <Card.Header>
                         {goal.title}
                         <Dropdown icon="ellipsis vertical" style={cardMenuStyle}>
@@ -56,7 +65,7 @@ function Goal(props) {
                         </Dropdown>    
                     </Card.Header>
                     <Card.Meta><Icon name="calendar alternate outline"/> {formatDate(goal.updated)}</Card.Meta>
-                    <Card.Description>
+                    <Card.Description style={cardDescriptionStyle}>
                         <div dangerouslySetInnerHTML={{__html: goal.description}}></div>
                     </Card.Description>
                 </Card.Content>

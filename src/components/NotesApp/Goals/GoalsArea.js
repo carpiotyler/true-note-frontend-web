@@ -103,7 +103,6 @@ class GoalsArea extends Component {
             period: goal.period
         })
         .then(res => {
-            console.log(res.data);
             let goal = res.data;
             let data = this.state.data;
             let existingGoal = data.find(x => x.uuid === goal.uuid);

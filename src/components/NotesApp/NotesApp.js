@@ -54,10 +54,7 @@ export default class NotesApp extends Component {
             <Router>
                 <div style={this.style}>
                     <Switch>
-                        <Route exact path="/app">
-                            <Redirect to="/app/notes" />
-                        </Route>
-                        <Route exact path="/app/todos">
+                        <Route exact path="/todos">
                             <NotesAppToolBar />
                             <UserContext.Consumer>
                                 {
@@ -69,7 +66,7 @@ export default class NotesApp extends Component {
                                 }
                             </UserContext.Consumer>
                         </Route>
-                        <Route exact path="/app/notes">
+                        <Route exact path="/notes">
                             <NotesAppToolBar />
                             <UserContext.Consumer>
                                 {
@@ -81,7 +78,7 @@ export default class NotesApp extends Component {
                                 }
                             </UserContext.Consumer>
                         </Route>
-                        <Route exact path="/app/goals">
+                        <Route exact path="/goals">
                             <NotesAppToolBar />
                             <UserContext.Consumer>
                                 {
@@ -93,7 +90,7 @@ export default class NotesApp extends Component {
                                 }
                             </UserContext.Consumer>
                         </Route>
-                        <Route exact path="/app/trends">
+                        <Route exact path="/trends">
                             <NotesAppToolBar />
                             <TrendsArea />
                         </Route>

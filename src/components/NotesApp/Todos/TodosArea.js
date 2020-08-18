@@ -126,7 +126,7 @@ class TodosArea extends Component {
 
     style = {
         overflow: 'auto',
-        height: '95vh'
+        height: isMobile ? '90vh' : '95vh'
     }
 
     render() {
