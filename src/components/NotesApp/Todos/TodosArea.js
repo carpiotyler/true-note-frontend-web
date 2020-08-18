@@ -35,18 +35,22 @@ class TodosArea extends Component {
         this.setState(Object.assign({}, this.state, params));
     }
 
-    setLoadingAndEditor(loading, editor) {
-        this.setState(Object.assign({}, this.state, {loading: loading}, {editor: editor}));
-    }
-
     findTodo(dayMoment) {
-        this.state.data.find(todo => {
-            return dayMoment?.isSame(moment(todo.date), 'day');
+        return this.state.data.find(todo => {
+            return dayMoment?.isSame(moment(new Date(todo.date)), 'day') ? todo : undefined;
         })
     }
 
-    putTodo(editorState) {
-        console.log(editorState);
+    async putTodo(editorState) {
+        this.set({loading: true});
+        let existingTodo = this.findTodo(editorState.date);
+        await this.request.put('daily-todos', {
+            date: (existingTodo ? new Date(existingTodo).toUTCString() : null) || editorState.date.toDate().toUTCString(),
+            uuid: existingTodo?.uuid,
+            todos: editorState.todos,
+            done: editorState.done
+        });
+        this.set({loading: false});
     }
 
     getTodosGrid() {
@@ -66,7 +70,7 @@ class TodosArea extends Component {
         return (
             <Grid columns={3} padded style={{height: '100%'}}>
                 <Grid.Column style={faded}>
-                    <Todo todo={this.findTodo()} day={yesterday} date={yesterday}/>
+                    <Todo todo={this.findTodo(yesterday)} day={yesterday} date={yesterday}/>
                 </Grid.Column>
                 <Grid.Column style={primary}>
                     <Todo todo={this.findTodo(today)} date={today} onDone={(editorState) => this.putTodo(editorState)} goals={this.state.goals}/>

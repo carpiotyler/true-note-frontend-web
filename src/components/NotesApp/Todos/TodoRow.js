@@ -10,6 +10,7 @@ export default class TodoRow extends Component {
         this.focusedUuid = props.focusedUuid;
         this.state = {
             new: props.new,
+            done: props.done,
             todo: props.todo || {}
         }
     }
@@ -26,19 +27,32 @@ export default class TodoRow extends Component {
 
     rowStyle = {
         display: 'flex',
-        alignItems: 'center'
-    }
-
-    dropdownStyle = {
-        height: '40px'
+        alignItems: 'center',
+        marginTop: '4px',
+        marginBottom: '4px'
     }
 
     render() {
+        let checkboxStyle = {
+            marginRight: '7px',
+            marginLeft: '3px'
+        }
+    
+        let inputStyle = {
+            textDecoration: this.state.done ? 'line-through': 'none',
+            marginRight: '12px',
+            width: '400px'
+        }
+    
+        let dropdownStyle = {
+            width: '140px'
+        }
+
         if(this.state.new) {
             return (
-                <div>
+                <div style={this.rowStyle}>
                     <Icon name='plus' />
-                    <Input placeholder='List Item' value="" onChange={(event, selection) => {
+                    <Input style= {inputStyle} placeholder='List Item' value="" onChange={(event, selection) => {
                         this.props.addTodo({
                             uuid: uuid.v1(),
                             text: selection.value,
@@ -51,9 +65,9 @@ export default class TodoRow extends Component {
         } else {
             return (
                 <div style={this.rowStyle}>
-                    <Checkbox checked={this.props.done} style={this.checkboxStyle} onChange={(event, checkbox) => this.props.handleTodoRowCheck(this.state.todo, checkbox.checked)}/>
-                    <Input style={this.inputStyle} ref={(input) => { this.nameInput = input; }} placeholder="Todo Item" value={this.state.todo.text} onChange={(event, selection) => this.set({todo: Object.assign(this.state.todo, {text: selection.value})})}/>
-                    <Dropdown style={this.dropdownStyle} selection options={this.options} defaultValue={this.state.todo?.goal} onChange={(event, selection) => this.state.todo.goal=selection.value} />
+                    <Checkbox checked={this.props.done} style={checkboxStyle} onChange={(event, checkbox) => this.props.handleTodoRowCheck(this.state.todo, checkbox.checked)}/>
+                    <Input style={inputStyle} ref={(input) => { this.nameInput = input; }} placeholder="Todo Item" value={this.state.todo.text} onChange={(event, selection) => this.set({todo: Object.assign(this.state.todo, {text: selection.value})})}/>
+                    <Dropdown style={dropdownStyle} selection options={this.options} defaultValue={this.state.todo?.goal} onChange={(event, selection) => this.state.todo.goal=selection.value} />
                 </div>
             )
         }

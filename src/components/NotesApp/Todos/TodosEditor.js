@@ -1,6 +1,6 @@
 import  React, {Component} from 'react';
 import TodoRow from './TodoRow'
-import {Button, Modal} from 'semantic-ui-react';
+import {Button, Modal, Header} from 'semantic-ui-react';
 
 class TodosEditor extends Component {
 
@@ -35,7 +35,6 @@ class TodosEditor extends Component {
     }
 
     handleTodoRowCheck(todo, bool) {
-        console.log(bool);
         if(bool) {
             let newTodos = this.state.todos.filter(val => val.uuid !== todo.uuid);
             let newDone =  [todo].concat(this.state.done);
@@ -75,6 +74,7 @@ class TodosEditor extends Component {
         if(this.state.done.length) {
             return (
                 <Modal.Content>
+                    <Header size='small'>Done:</Header>
                     {
                         this.state.done.map(done => {
                             return (
@@ -108,9 +108,10 @@ class TodosEditor extends Component {
                 style={modalStyle}
             >
                 <Modal.Header>
-                    Todo: {this.state.date.format('MMMM Do, YYYY')}
+                    {this.state.date.format('MMMM Do, YYYY')}
                 </Modal.Header>
                 <Modal.Content>
+                    <Header size='small'>Todo:</Header>
                     {this.getTodoRows()}
                 </Modal.Content>
                 {this.getDoneRows()}

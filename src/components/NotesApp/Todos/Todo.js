@@ -1,5 +1,5 @@
 import React from 'react';
-import {Card, Button, Icon} from 'semantic-ui-react'
+import {Card, Button, Icon, Checkbox, Label, Header} from 'semantic-ui-react'
 import {isMobile} from 'react-device-detect';
 import moment from 'moment';
 import TodosEditor from './TodosEditor';
@@ -43,6 +43,21 @@ function Todo(props) {
         return render(<TodosEditor open={true} onDone={(editorState) => props.onDone(editorState)} todo={todo} date={props.date} goals={props.goals}/>)
     }
 
+    const rowStyle = {
+        display: 'flex',
+        alignItems: 'center',
+        marginTop: '4px',
+        marginBottom: '4px'
+    }
+
+    const checkboxStyle = {
+        marginRight: '6px'
+    }
+
+    const labelStyle = {
+        marginLeft: '6px'
+    }
+
     return (
         <div style={style}>
             <Card style={cardstyle}>
@@ -51,6 +66,32 @@ function Todo(props) {
                         {getContextHeader()}
                         {props.onDone ? <Button style={editStyle} onClick={() => handleEditButton()}><Icon name='edit outline' size='large'/></Button> : undefined}
                     </Card.Header>
+                    <Card.Description>
+                        <Header style={{marginTop: '16px'}}size='tiny'>Todo:</Header>
+                        {
+                            todo?.todos.map(td => {
+                               return (
+                                   <div style={rowStyle}>
+                                       <Checkbox checked={false} style={checkboxStyle}/>
+                                       {td.text}
+                                       <Label style={labelStyle} size='tiny'>{props.goals?.find(val => val.uuid === td.goal)?.title}</Label>
+                                   </div>
+                               ) 
+                            })
+                        }
+                        <Header size='tiny'>Done:</Header>
+                        {
+                            todo?.done.map(td => {
+                               return (
+                                   <div style={rowStyle}>
+                                       <Checkbox checked={true} style={checkboxStyle}/>
+                                       {td.text}
+                                       {td.goal ? <Label style={labelStyle} size='tiny'>{props.goals?.find(val => val.uuid === td.goal)?.title}</Label> : <div />}
+                                   </div>
+                               ) 
+                            })
+                        }
+                    </Card.Description>
                 </Card.Content>
             </Card>
         </div>
