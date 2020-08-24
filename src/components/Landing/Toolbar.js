@@ -15,7 +15,7 @@ function Toolbar() {
   }
 
   const signIn = function() {
-    window.location.href = `https://true-note.auth.us-east-2.amazoncognito.com/login?response_type=token&client_id=o3k3uaehm25avnegda3jpqj10&redirect_uri=${window.location.origin}/todos`;
+    window.location.href = `https://secure.truenote.app/login?response_type=token&client_id=o3k3uaehm25avnegda3jpqj10&redirect_uri=${window.location.origin}/todos`;
   }
 
   return (
