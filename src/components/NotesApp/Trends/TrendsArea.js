@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import {isMobile} from 'react-device-detect';
 import {Loader, Dimmer} from 'semantic-ui-react'
 import Request from '../../utils/Request';
-import TopGoalsByTodosChart from './Charts/TopGoalsByTodosChart'
+import TopGoalsByTodosChart from './Charts/TopGoalsByTodosChart';
+import TopGoalsByNotesChart from './Charts/TopGoalsByNotesChart';
 
 
 export default class TrendsArea extends Component {
@@ -18,6 +19,7 @@ export default class TrendsArea extends Component {
         super(props);
         this.state = {
             topGoalsByTodos: [],
+            topGoalsByNotes: [],
             goals: [],
             loading: false
         }
@@ -25,14 +27,16 @@ export default class TrendsArea extends Component {
     }
 
     async componentDidMount() {
-        let promise1 = this.request.get('statistics/top-goals-by-todos');
-        let promise2 = this.request.get('goals');
+        let promise1 = this.request.get('goals');
+        let promise2 = this.request.get('statistics/top-goals-by-todos');
+        let promise3 = this.request.get('statistics/top-goals-by-notes');
         this.set({loading: true});
-        let [res1, res2] = await Promise.all([promise1, promise2])
+        let [res1, res2, res3] = await Promise.all([promise1, promise2, promise3]);
         this.set({
             loading: false,
-            topGoalsByTodos: res1.data,
-            goals: res2.data.Items
+            goals: res1.data.Items,
+            topGoalsByTodos: res2.data,
+            topGoalsByNotes: res3.data
         })
     }
 
@@ -52,6 +56,7 @@ export default class TrendsArea extends Component {
                     <Loader active={this.state.loading} />
                 </Dimmer>
                 <TopGoalsByTodosChart goals={this.state.goals} topGoalsByTodos={this.state.topGoalsByTodos} />
+                <TopGoalsByNotesChart goals={this.state.goals} topGoalsByNotes={this.state.topGoalsByNotes} />
             </div>
         )
     }
