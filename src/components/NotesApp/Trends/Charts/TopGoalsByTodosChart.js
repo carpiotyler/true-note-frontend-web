@@ -17,7 +17,7 @@ const TopGoalsByTodosChart = function(props) {
                     mode: 'markers',
                     hole: .4
                 }]}
-                layout={{title: 'Top Goals By Todos'}}
+                layout={{title: 'Top Goals (Completed Todo Items)'}}
             /> : <div />
         
     )
