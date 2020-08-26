@@ -92,7 +92,15 @@ export default class NotesApp extends Component {
                         </Route>
                         <Route exact path="/trends">
                             <NotesAppToolBar />
-                            <TrendsArea />
+                            <UserContext.Consumer>
+                                {
+                                    (state) => {
+                                        return (
+                                            <TrendsArea id_token={state.context.id_token} access_token={state.context.access_token}/>
+                                        )
+                                    }
+                                }
+                            </UserContext.Consumer>
                         </Route>
                     </Switch>
                 </div>
