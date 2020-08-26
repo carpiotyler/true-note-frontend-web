@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {isMobile} from 'react-device-detect';
 import {Loader, Dimmer} from 'semantic-ui-react'
 import Request from '../../utils/Request';
-import Plot from 'react-plotly.js';
+import TopGoalsByTodosChart from './Charts/TopGoalsByTodosChart'
 
 
 export default class TrendsArea extends Component {
@@ -40,10 +40,6 @@ export default class TrendsArea extends Component {
         this.setState(Object.assign({}, this.state, params));
     }
 
-    findGoal(uuid) {
-        return this.state.goals.find(goal => goal.uuid === uuid);
-    }
-
     style = {
         overflow: 'auto',
         height: isMobile ? '90vh' : '95vh'
@@ -55,17 +51,7 @@ export default class TrendsArea extends Component {
                 <Dimmer active={this.state.loading} style={{opacity: '0.3'}}>
                     <Loader active={this.state.loading} />
                 </Dimmer>
-                { this.state.goals.length && this.state.topGoalsByTodos?
-                    <Plot 
-                        data={[{
-                            labels: Object.keys(this.state.topGoalsByTodos).map(key => this.findGoal(key)?.title),
-                            values: Object.values(this.state.topGoalsByTodos),
-                            type: 'pie',
-                            mode: 'markers'
-                        }]}
-                        layout={{title: 'Top Goals By Todos'}}
-                    /> : <div />
-                }
+                <TopGoalsByTodosChart goals={this.state.goals} topGoalsByTodos={this.state.topGoalsByTodos} />
             </div>
         )
     }
